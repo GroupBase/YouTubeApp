@@ -1,5 +1,7 @@
 package dev.vn.groupbase.model;
 
+import android.os.Handler;
+
 import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import dev.vn.groupbase.api.parser.ChannelSectionParser;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.database.YouTubeAppManager;
 import dev.vn.groupbase.model.callback.ModelCallBackSplash;
+import dev.vn.groupbase.util.Helper;
 import gmo.hcm.net.lib.ApiListener;
 
 /**
@@ -18,13 +21,20 @@ import gmo.hcm.net.lib.ApiListener;
  */
 
 public class SplashModel extends ModelCommon {
+    private Handler handler = new Handler();
     public SplashModel(ModelCallBackSplash listener) {
         super(listener);
     }
 
     @Override
     public void onStart() {
-        requestChannelSection();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                requestChannelSection();
+            }
+        },2000);
+
     }
 
     public void requestChannelSection() {
@@ -33,6 +43,9 @@ public class SplashModel extends ModelCommon {
             @Override
             public void onError(VolleyError statusCode) {
                 ((ModelCallBackSplash)mCallBack).complete(false);
+                if (!Helper.isNetworkConnected(mContext)){
+                    ((ModelCallBackSplash)mCallBack).onError(ERROR_TYPE.NETWORK);
+                }
             }
 
             @Override

@@ -1,8 +1,16 @@
 package dev.vn.groupbase.fragment;
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +19,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import app.thn.groupbase.youtubeapp.R;
+import dev.vn.groupbase.activity.BaseActivity;
 import dev.vn.groupbase.api.entity.VideoEntity;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ProgressLoading;
+import dev.vn.groupbase.common.ViewManager;
 import dev.vn.groupbase.database.BookMarkTable;
 import dev.vn.groupbase.database.YouTubeAppManager;
 import dev.vn.groupbase.listener.StreamVideoListener;
@@ -37,6 +50,7 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
     private BookMarkTable bookMarkTable;
     private VideoPlayModel mModel;
     private TextView tv_description,tv_title;
+    private static final String URL_REGEX = new String("http[s]?://[\\w\\d/%#$&?()~_.=+-]+");
     private View.OnLayoutChangeListener listener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -84,17 +98,23 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
         tv_title = (TextView)findViewById(R.id.tv_title);
         videoId = getArguments().getString("video_id","");
         url_img = getArguments().getString("url_img","");
+        BookMarkTable obj = (BookMarkTable)getArguments().getSerializable("bookmark");
         bookMarkTable = new BookMarkTable();
-        bookMarkTable.imgPlayList="";
-        bookMarkTable.imgVideo = url_img;
-        bookMarkTable.videoId = videoId;
-        bookMarkTable.playListId = "9999";
-        bookMarkTable.playListName = "Video";
-        bookMarkTable.videoName = "";
+        if (obj!=null){
+            bookMarkTable = obj;
+        } else {
+            bookMarkTable.imgPlayList = "";
+            bookMarkTable.imgVideo = url_img;
+            bookMarkTable.videoId = videoId;
+            bookMarkTable.playListId = "9999";
+            bookMarkTable.playListName = "Video";
+            bookMarkTable.videoName = "";
+        }
+        mModel.requestVideo(videoId);
         if(!TextUtils.isEmpty(videoId)){
             videoFragment.loadVideo(videoId,url_img);
         }
-        mModel.requestVideo(videoId);
+
         iv_bookMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +137,9 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
     @Override
     public void setVisibilityActionBar() {
         mToolbarLeft.setVisibility(View.VISIBLE);
-        mToolbarLeft.findViewById(R.id.tv_title).setVisibility(View.GONE);
+        TextView title = (TextView)mToolbarLeft.findViewById(R.id.tv_title);
+        title.setVisibility(View.VISIBLE);
+        title.setText(getArguments().getString("title",""));
     }
 
     @Override
@@ -187,10 +209,6 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
         view.setLayoutParams(params);
     }
 
-    @Override
-    public void onError() {
-
-    }
 
     @Override
     public void onData(VideoEntity data) {
@@ -201,7 +219,19 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
             VideoEntity obj = data;
             tv_title.setText(obj.snippet.title);
             bookMarkTable.videoName = obj.snippet.title;
-            tv_description.setText(obj.snippet.description);
+
+//            tv_description.setText(obj.snippet.description);
+            Pattern pattern = Pattern.compile(URL_REGEX);
+            final Matcher matcher = pattern.matcher(obj.snippet.description);
+            Spannable spannable = new SpannableString(obj.snippet.description);
+            // URLにアンカーを設定
+            while (matcher.find()) {
+                CustomUrlSpan urlSpan = new CustomUrlSpan(matcher.group(), ViewManager.getInstance().getActivity());
+                spannable.setSpan(urlSpan, matcher.start(), matcher.end(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            tv_description.setText(spannable, TextView.BufferType.SPANNABLE);
+            tv_description.setMovementMethod(LinkMovementMethod.getInstance());
             if (bookMarkTable!=null) {
                 checkBookMark(bookMarkTable.videoId,bookMarkTable.playListId);
             }
@@ -210,6 +240,43 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
 
     @Override
     public void onError(ModelCommon.ERROR_TYPE error_type) {
+        switch (error_type){
+            case NETWORK:
+                ((BaseActivity)ViewManager.getInstance().getActivity()).showErrorView();
+                break;
+        }
+    }
+    //
+    private static class CustomUrlSpan extends URLSpan {
 
+        /**
+         * 遷移先Url.
+         */
+        private String mNoticeUrl;
+        /**
+         * 遷移元Activity.
+         */
+        private FragmentActivity mActivity;
+
+        /**
+         * コンストラクタ.
+         *
+         * @param url      遷移先Url.
+         * @param activity 遷移元Activity.
+         */
+        public CustomUrlSpan(final String url, final FragmentActivity activity) {
+            super(url);
+            mNoticeUrl = url;
+            mActivity = activity;
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see android.text.style.URLSpan#onClick(android.view.View)
+         */
+        @Override
+        public void onClick(final View widget) {
+            mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mNoticeUrl)));
+        }
     }
 }

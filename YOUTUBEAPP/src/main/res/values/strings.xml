@@ -2,4 +2,7 @@
     <string name="app_name">YouTubeApp</string>
     <string name="channel_key">UCXGVT1ge8D2h2k79szmITsQ</string>
     <string name="init_data">Đang nạp dữ liệu ...</string>
+    <string name="watched">Đã xem</string>
+    <string name="error">Đã có vấn đề xảy ra trên đường truyền.\n Vui lòng kiểm tra lại kết nối Internet </string>
+    <string name="close_app">Đóng ứng dụng</string>
 </resources>

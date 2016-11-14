@@ -56,7 +56,7 @@ public class ViewManager {
             if (addStack) {
                 ft.addToBackStack(nameFragment);
             }
-            ft.commit();
+            ft.commitAllowingStateLoss();
             mFragmentManager.executePendingTransactions();
         }
     }

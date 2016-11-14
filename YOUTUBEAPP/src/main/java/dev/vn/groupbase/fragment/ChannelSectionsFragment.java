@@ -40,6 +40,7 @@ public class ChannelSectionsFragment extends FragmentCommon implements ModelCall
 
     @Override
     protected void initView() {
+        this.mShowToolBar = false;
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);

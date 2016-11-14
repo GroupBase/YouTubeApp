@@ -100,6 +100,7 @@ public abstract class FragmentCommon extends Fragment {
                 ActionBar actionBar = ((BaseActivity) getActivity()).getSupportActionBar();
                 if (actionBar != null) {
                     actionBar.show();
+                    ((BaseActivity) getActivity()).getToolbar().setVisibility(View.VISIBLE);
                 }
                 createToolBar();
             }
@@ -109,6 +110,7 @@ public abstract class FragmentCommon extends Fragment {
                 ActionBar actionBar = ((BaseActivity) getActivity()).getSupportActionBar();
                 if (actionBar != null) {
                     actionBar.hide();
+                    ((BaseActivity) getActivity()).getToolbar().setVisibility(View.GONE);
                 }
             }
         }

@@ -43,6 +43,7 @@ public class HomeFragment extends FragmentCommon implements ModelCallBackHome, O
 
     @Override
     protected void initView() {
+        this.mShowToolBar = false;
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

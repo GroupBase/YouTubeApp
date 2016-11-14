@@ -18,6 +18,8 @@ import java.util.List;
 
 import app.thn.groupbase.youtubeapp.R;
 import dev.vn.groupbase.api.entity.PlayListItemEntity;
+import dev.vn.groupbase.database.HistoryTable;
+import dev.vn.groupbase.database.YouTubeAppManager;
 import dev.vn.groupbase.listener.OnItemClickListener;
 
 /**
@@ -30,11 +32,23 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
     int dpi;
     private OnItemClickListener listener;
     private boolean isSelect = false;
-    private int indexSelect  = 0;
-    public PlayListItemsAdapter(List<PlayListItemEntity> lst, Context context,OnItemClickListener itemClickListener) {
+    private int indexSelect = 0;
+    List<HistoryTable> historyTablesList;
+
+    public PlayListItemsAdapter(List<PlayListItemEntity> lst, Context context, OnItemClickListener itemClickListener) {
         list = lst;
         mContext = context;
         listener = itemClickListener;
+        historyTablesList = YouTubeAppManager.getHistory();
+    }
+
+    private boolean checkWatch(String videoId) {
+        for (HistoryTable item : historyTablesList) {
+            if (item.videoId.equals(videoId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -44,17 +58,25 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
 
         return new PlayListItemsViewHolder(itemView);
     }
-    public void setSelect(boolean select){
+
+    public void setSelect(boolean select) {
         isSelect = select;
     }
-    public void setIndexSelect( int index){
+
+    public void setIndexSelect(int index) {
         indexSelect = index;
     }
+
     @Override
     public void onBindViewHolder(final PlayListItemsViewHolder holder, int position) {
         PlayListItemEntity obj = list.get(position);
         holder.tv_title.setText(obj.snippet.title);
-        String url="";
+        if (checkWatch(obj.contentDetails.videoId)) {
+            holder.watched.setVisibility(View.VISIBLE);
+        } else {
+            holder.watched.setVisibility(View.INVISIBLE);
+        }
+        String url = "";
         try {
             if (!TextUtils.isEmpty(obj.snippet.thumbnails.maxres.url)) {
                 url = obj.snippet.thumbnails.maxres.url;
@@ -64,11 +86,11 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
                 url = obj.snippet.thumbnails.high.url;
             } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.medium.url)) {
                 url = obj.snippet.thumbnails.medium.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.default_url.url)){
+            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.default_url.url)) {
                 url = obj.snippet.thumbnails.default_url.url;
             }
         } catch (Exception e) {
-            url="";
+            url = "";
         }
 
         Glide.with(mContext)
@@ -91,9 +113,9 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
                     }
                 })
                 .into(holder.iv_Thumbnails);
-        if (isSelect && position == indexSelect){
+        if (isSelect && position == indexSelect) {
             holder.ln_item.setSelected(true);
-        }else {
+        } else {
             holder.ln_item.setSelected(false);
         }
     }
@@ -101,9 +123,11 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
     public String getVideoId(int position) {
         return list.get(position).contentDetails.videoId;
     }
-    public PlayListItemEntity getItemObject(int position){
+
+    public PlayListItemEntity getItemObject(int position) {
         return this.list.get(position);
     }
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -114,17 +138,21 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
         public TextView tv_title;
         public ImageView iv_play;
         public View ln_item;
+        public TextView watched;
+
         public PlayListItemsViewHolder(final View itemView) {
             super(itemView);
             iv_Thumbnails = (ImageView) itemView.findViewById(R.id.iv_thumbnails);
             tv_title = (TextView) itemView.findViewById(R.id.tv_title);
             iv_play = (ImageView) itemView.findViewById(R.id.iv_play);
             ln_item = itemView.findViewById(R.id.ln_item);
+            watched = (TextView) itemView.findViewById(R.id.watched);
+            watched = (TextView) itemView.findViewById(R.id.watched);
             ln_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener!=null){
-                        listener.onItemClick(itemView,getLayoutPosition());
+                    if (listener != null) {
+                        listener.onItemClick(itemView, getLayoutPosition());
                     }
                 }
             });

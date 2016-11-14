@@ -11,7 +11,7 @@ public class ModelCommon {
     protected Context mContext;
     protected ModelCallBack mCallBack;
     public enum ERROR_TYPE{
-        NETWORK
+        NETWORK,DATA_ERROR
     }
     public ModelCommon() {
     }

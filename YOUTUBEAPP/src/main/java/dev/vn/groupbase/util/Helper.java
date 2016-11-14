@@ -10,6 +10,9 @@ import android.net.ConnectivityManager;
 public class Helper {
     public static boolean isNetworkConnected(Context mContext) {
         ConnectivityManager mConnectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (mConnectivityManager.getActiveNetworkInfo() == null){
+            return false;
+        }
         return (mConnectivityManager.getActiveNetworkInfo() != null && mConnectivityManager.getActiveNetworkInfo().isAvailable() && mConnectivityManager
                 .getActiveNetworkInfo().isConnected());
     }

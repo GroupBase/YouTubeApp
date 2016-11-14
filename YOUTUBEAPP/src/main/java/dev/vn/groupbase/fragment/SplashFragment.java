@@ -4,6 +4,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import app.thn.groupbase.youtubeapp.R;
+import dev.vn.groupbase.activity.BaseActivity;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ViewManager;
@@ -45,6 +46,10 @@ public class SplashFragment extends FragmentCommon implements ModelCallBackSplas
 
     @Override
     public void onError(ModelCommon.ERROR_TYPE error_type) {
-
+        switch (error_type){
+            case NETWORK:
+                ((BaseActivity)ViewManager.getInstance().getActivity()).showErrorView();
+                break;
+        }
     }
 }

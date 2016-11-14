@@ -25,7 +25,6 @@ public class PlayListModel extends ModelCommon {
     public static String LIST_PLAY_TITLE = "play_list_title";
     public static String LIST_PLAY_IMAGE = "play_list_image";
     private String mListPlayListId;
-    private String mTitleHeader = "";
     public PlayListModel (PlayListListener listener) {
         super(listener);
     }
@@ -60,9 +59,6 @@ public class PlayListModel extends ModelCommon {
 
     @Override
     public void getData(Bundle bundle) {
-        if(bundle.containsKey(ChannelSectionsModel.CHENNEL_SECTIONS_TITLE)) {
-            mTitleHeader = bundle.getString(ChannelSectionsModel.CHENNEL_SECTIONS_TITLE);
-        }
         if (bundle.containsKey(LIST_PLAY_LIST_KEY)){
             mListPlayListId = bundle.getString(LIST_PLAY_LIST_KEY);
         }

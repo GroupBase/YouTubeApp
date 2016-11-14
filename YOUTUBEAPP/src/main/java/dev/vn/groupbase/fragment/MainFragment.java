@@ -26,6 +26,7 @@ public class MainFragment extends FragmentCommon {
 
     @Override
     protected void initView() {
+        this.mShowToolBar = false;
         mAdapter = new MainAdapter(getChildFragmentManager());
         vp_page = (ViewPager) findViewById(R.id.vp_page);
         vp_page.setAdapter(mAdapter);

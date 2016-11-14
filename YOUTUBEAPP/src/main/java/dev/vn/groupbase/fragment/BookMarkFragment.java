@@ -27,6 +27,7 @@ public class BookMarkFragment extends FragmentCommon {
 
     @Override
     protected void initView() {
+        this.mShowToolBar = false;
         mListl = (ExpandableListView) findViewById(R.id.ex_list);
     }
 
