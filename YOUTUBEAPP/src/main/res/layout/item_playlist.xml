@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ln_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_4"
+    android:background="#000000"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_thumbnails"
+            android:layout_width="@dimen/view_100"
+            android:layout_height="@dimen/view_100"
+            app:srcCompat="@mipmap/ic_launcher"
+            tools:ignore="ContentDescription" />
+
+        <RelativeLayout
+            android:layout_width="@dimen/view_100"
+            android:layout_height="@dimen/view_100"
+            android:background="@color/black_tranparent">
+
+            <ImageView
+                android:id="@+id/iv_list"
+                android:layout_width="@dimen/view_48"
+                android:layout_height="@dimen/view_48"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/ic_playlist_play_white_48dp"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_video_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/iv_list"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/text_size"
+                tools:text="2000" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:maxLines="3"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/text_size"
+        tools:text="title\ntitla\n" />
+</LinearLayout>

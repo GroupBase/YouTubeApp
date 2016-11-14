@@ -13,47 +13,45 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import app.thn.groupbase.youtubeapp.R;
-import dev.vn.groupbase.api.entity.PlayListItemEntity;
+import dev.vn.groupbase.api.entity.PlayListEntity;
 import dev.vn.groupbase.listener.OnItemClickListener;
-
 
 /**
  * Created by acnovn on 10/26/16.
  */
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
-    private List<PlayListItemEntity> list;
+public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayListViewHolder> {
+    private List<PlayListEntity> list;
     private Context mContext;
     int dpi;
     private OnItemClickListener listener;
     public void setListener(OnItemClickListener itemClickListener){
         this.listener = itemClickListener;
     }
-    public HomeAdapter(List<PlayListItemEntity> lst ,Context context) {
+    public PlayListAdapter(List<PlayListEntity> lst, Context context) {
         list = lst;
         mContext = context;
 //        dpi = mContext.getResources().getDisplayMetrics().densityDpi;
     }
-
-    public PlayListItemEntity getObject(int position) {
+    public PlayListEntity getObject(int  position) {
         return list.get(position);
     }
     @Override
-    public HomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PlayListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_home, parent, false);
+                .inflate(R.layout.item_playlist, parent, false);
 
-        return new HomeViewHolder(itemView);
+        return new PlayListViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(HomeViewHolder holder, int position) {
-        final PlayListItemEntity obj = list.get(position);
+    public void onBindViewHolder(PlayListViewHolder holder, int position) {
+        final PlayListEntity obj = list.get(position);
         holder.tv_title.setText(obj.snippet.title);
+        holder.tv_video_count.setText(obj.contentDetails.itemCount+"");
         String url;
         try {
             if (!TextUtils.isEmpty(obj.snippet.thumbnails.maxres.url)) {
@@ -70,6 +68,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         } catch (Exception e){
             url = "";
         }
+
         Glide.with(mContext)
                 .load(url)
                 .placeholder(R.drawable.placeholder)
@@ -83,14 +82,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         return list.size();
     }
 
-    public class HomeViewHolder extends RecyclerView.ViewHolder {
+    public class PlayListViewHolder extends RecyclerView.ViewHolder {
         public ImageView iv_Thumbnails;
         public TextView tv_title;
-
-        public HomeViewHolder(final View itemView) {
+        public TextView tv_video_count;
+        public PlayListViewHolder(View itemView) {
             super(itemView);
             iv_Thumbnails = (ImageView) itemView.findViewById(R.id.iv_thumbnails);
             tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            tv_video_count = (TextView) itemView.findViewById(R.id.tv_video_count);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,9 +100,5 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 }
             });
         }
-    }
-    public static class ChannelSection {
-        public String title;
-        public ArrayList<String> id;
     }
 }

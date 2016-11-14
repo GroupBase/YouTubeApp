@@ -30,9 +30,9 @@ public class VideoPlayModel extends ModelCommon {
             public void onFinish(Object result, boolean endRequest) {
                 ArrayList<VideoEntity>list = VideoParser.parser(result.toString());
                 if (list.size()>0){
-                    ((ModelCallBackVideoPlay)mCallBack).onBinData(list.get(0));
+//                    ((ModelCallBackVideoPlay)mCallBack).onBinData(list.get(0));
                 }else {
-                    ((ModelCallBackVideoPlay)mCallBack).onBinData(null);
+//                    ((ModelCallBackVideoPlay)mCallBack).onBinData(null);
                 }
 
             }

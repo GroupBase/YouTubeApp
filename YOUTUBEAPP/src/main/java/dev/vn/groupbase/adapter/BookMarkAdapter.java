@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import app.thn.groupbase.youtubeapp.R;
+import dev.vn.groupbase.activity.VideoPlayActivity;
 import dev.vn.groupbase.database.BookMarkTable;
 
 /**
@@ -154,11 +155,11 @@ public class BookMarkAdapter extends BaseExpandableListAdapter {
                 } catch (Exception e){
                     url = "";
                 }
-//                bundle.putString("video_id",obj.videoId);
-//                bundle.putString("url_img",url);
-//                Intent intent = new Intent(mContext, VideoPlayActivity.class);
-//                intent.putExtras(bundle);
-//                mContext.startActivity(intent);
+                bundle.putString("video_id",obj.videoId);
+                bundle.putString("url_img",url);
+                Intent intent = new Intent(mContext, VideoPlayActivity.class);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
         return convertView;

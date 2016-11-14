@@ -7,65 +7,74 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import app.thn.groupbase.youtubeapp.R;
 import dev.vn.groupbase.activity.PlayListItemsActivity;
-import dev.vn.groupbase.adapter.HomeAdapter;
+import dev.vn.groupbase.adapter.PlayListAdapter;
 import dev.vn.groupbase.api.entity.PlayListEntity;
-import dev.vn.groupbase.api.entity.PlayListItemEntity;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.listener.OnItemClickListener;
-import dev.vn.groupbase.model.callback.ModelCallBackHome;
-import dev.vn.groupbase.model.HomeModel;
+import dev.vn.groupbase.listener.PlayListListener;
+import dev.vn.groupbase.model.ChannelSectionsModel;
+import dev.vn.groupbase.model.PlayListModel;
 
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_IMAGE;
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_TITLE;
 import static dev.vn.groupbase.model.PlayListModel.PLAY_LIST_KEY;
 
 /**
- * Created by acnovn on 10/26/16.
+ * Created by acnovn on 10/27/16.
  */
 
-public class HomeFragment extends FragmentCommon implements ModelCallBackHome, OnItemClickListener {
-    private List<PlayListItemEntity> lst = new ArrayList<>();
+public class PlayListFragment extends FragmentCommon implements PlayListListener ,OnItemClickListener{
+    private PlayListModel mModel;
+    private List<PlayListEntity> lst = new ArrayList<>();
     private RecyclerView recyclerView;
-    private HomeAdapter mAdapter;
-    private HomeModel mHomeModel;
-    private boolean isFirstLoadData = false;
+    private PlayListAdapter mAdapter;
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_playlist;
     }
 
     @Override
     protected void initView() {
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        if (isFirstLoadData) {
-            recyclerView.setAdapter(mAdapter);
-        }
     }
 
     @Override
     protected ModelCommon initModel() {
-        mHomeModel = new HomeModel(this);
-        return mHomeModel;
+        if (mModel==null){
+            mModel = new PlayListModel(this);
+        }
+        return mModel;
     }
 
+    @Override
+    public void setVisibilityActionBar() {
+        mToolbarLeft.setVisibility(View.VISIBLE);
+        Bundle bundle = getArguments();
+        if (bundle!=null){
+            if(bundle.containsKey(ChannelSectionsModel.CHENNEL_SECTIONS_TITLE)) {
+                ((TextView)mToolbarLeft.findViewById(R.id.tv_title)).setText(bundle.getString(ChannelSectionsModel.CHENNEL_SECTIONS_TITLE));
+            }
+        }
+
+    }
 
     @Override
-    public void onLoadNew(ArrayList<PlayListItemEntity> list) {
+    public void onLoadData(List<PlayListEntity> list) {
         lst = list;
-        isFirstLoadData = true;
-        mAdapter = new HomeAdapter(lst,getActivity());
-        recyclerView.setAdapter(mAdapter);
+        mAdapter = new PlayListAdapter(lst,getContext());
         mAdapter.setListener(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -75,7 +84,7 @@ public class HomeFragment extends FragmentCommon implements ModelCallBackHome, O
 
     @Override
     public void onItemClick(View itemView, int position) {
-        PlayListItemEntity obj = mAdapter.getObject(position);
+        PlayListEntity obj = mAdapter.getObject(position);
         String url_data;
         try {
             if (!TextUtils.isEmpty(obj.snippet.thumbnails.maxres.url)) {
@@ -94,7 +103,7 @@ public class HomeFragment extends FragmentCommon implements ModelCallBackHome, O
         }
         Intent intent = new Intent(mContext, PlayListItemsActivity.class);
         Bundle data = new Bundle();
-        data.putString(PLAY_LIST_KEY,obj.snippet.playlistId);
+        data.putString(PLAY_LIST_KEY,obj.id);
         data.putString(LIST_PLAY_TITLE,obj.snippet.title);
         data.putString(LIST_PLAY_IMAGE,url_data);
         intent.putExtras(data);

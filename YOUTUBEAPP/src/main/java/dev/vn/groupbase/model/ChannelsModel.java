@@ -47,6 +47,6 @@ public class ChannelsModel extends ModelCommon implements ApiListener{
     @Override
     public void onFinish(Object result,boolean endRequest) {
         DebugLog.log("JsonResult:",result.toString());
-        mCallBack.onBinData( result);
+//        mCallBack.onBinData( result);
     }
 }

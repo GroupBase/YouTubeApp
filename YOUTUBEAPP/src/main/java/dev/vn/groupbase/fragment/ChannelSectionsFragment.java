@@ -1,7 +1,9 @@
 package dev.vn.groupbase.fragment;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.thn.groupbase.youtubeapp.R;
+import dev.vn.groupbase.activity.PlayListActivity;
 import dev.vn.groupbase.adapter.ChannelSectionsAdapter;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.database.ChannelSectionsTable;
+import dev.vn.groupbase.listener.OnItemClickListener;
+import dev.vn.groupbase.model.PlayListModel;
 import dev.vn.groupbase.model.callback.ModelCallBackChannelSections;
 import dev.vn.groupbase.model.ChannelSectionsModel;
 
@@ -23,7 +28,7 @@ import dev.vn.groupbase.model.ChannelSectionsModel;
  * Created by acnovn on 10/26/16.
  */
 
-public class ChannelSectionsFragment extends FragmentCommon implements ModelCallBackChannelSections {
+public class ChannelSectionsFragment extends FragmentCommon implements ModelCallBackChannelSections ,OnItemClickListener {
     private List<ChannelSectionsTable> lst = new ArrayList<>();
     private RecyclerView recyclerView;
     private ChannelSectionsAdapter mAdapter;
@@ -57,6 +62,7 @@ public class ChannelSectionsFragment extends FragmentCommon implements ModelCall
     public void onLoadChannelSection(ArrayList<ChannelSectionsTable> list) {
         lst = list;
         mAdapter = new ChannelSectionsAdapter(lst, getContext());
+        mAdapter.setListener(this);
         recyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
@@ -64,6 +70,16 @@ public class ChannelSectionsFragment extends FragmentCommon implements ModelCall
     @Override
     public void onError(ModelCommon.ERROR_TYPE error_type) {
 
+    }
+
+    @Override
+    public void onItemClick(View itemView, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString(PlayListModel.LIST_PLAY_LIST_KEY,mAdapter.getObject(position).playList);
+                bundle.putString(ChannelSectionsModel.CHENNEL_SECTIONS_TITLE,mAdapter.getObject(position).name);
+                Intent intent = new Intent(mContext, PlayListActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

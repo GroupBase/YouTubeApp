@@ -14,6 +14,7 @@ import dev.vn.groupbase.api.parser.ChannelSectionParser;
 import dev.vn.groupbase.api.parser.PlayListItemParser;
 import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.ModelCommon;
+import dev.vn.groupbase.common.ProgressLoading;
 import dev.vn.groupbase.model.callback.ModelCallBackHome;
 import dev.vn.groupbase.util.Helper;
 import gmo.hcm.net.lib.ApiListener;
@@ -35,14 +36,17 @@ public class HomeModel extends ModelCommon {
     }
 
     public void requestChannelSection() {
+        ProgressLoading.show();
         if (!Helper.isNetworkConnected(mContext)){
             ((ModelCallBackHome) mCallBack).onError(ERROR_TYPE.NETWORK);
+            ProgressLoading.dismiss();
             return;
         }
         ChannelSectionsApi api = new ChannelSectionsApi(new ApiListener() {
             @Override
             public void onError(VolleyError statusCode) {
                 DebugLog.log_e(TAG, "requestChannelSection");
+                ProgressLoading.dismiss();
             }
 
             @Override
@@ -69,6 +73,7 @@ public class HomeModel extends ModelCommon {
                 @Override
                 public void onError(VolleyError statusCode) {
                     DebugLog.log_e(TAG, "requestPlayListItem");
+                    ProgressLoading.dismiss();
 
                 }
 
@@ -79,6 +84,7 @@ public class HomeModel extends ModelCommon {
                     listData.addAll(lst);
                     if (endRequest){
                         ((ModelCallBackHome) mCallBack).onLoadNew(listData);
+                        ProgressLoading.dismiss();
                     }
                 }
             });

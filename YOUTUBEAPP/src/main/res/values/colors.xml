@@ -11,4 +11,5 @@
     <color name="text_black">#000000</color>
     <color name="background_channelsection">#000000</color>
     <color name="menu_background">#FFFFFF</color>
+    <color name="black_tranparent">#80000000</color>
 </resources>

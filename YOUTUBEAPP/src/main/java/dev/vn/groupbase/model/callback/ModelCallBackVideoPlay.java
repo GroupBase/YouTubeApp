@@ -1,5 +1,6 @@
 package dev.vn.groupbase.model.callback;
 
+import dev.vn.groupbase.api.entity.VideoEntity;
 import dev.vn.groupbase.common.ModelCallBack;
 
 /**
@@ -8,4 +9,5 @@ import dev.vn.groupbase.common.ModelCallBack;
 
 public interface ModelCallBackVideoPlay extends ModelCallBack {
     void onError();
+    public void onData(VideoEntity data);
 }

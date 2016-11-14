@@ -32,14 +32,14 @@ public class StreamVideoModel extends ModelCommon {
 
     public void requestStream(final String videoId) {
         if (!Helper.isNetworkConnected(mContext)){
-            ((ModelCallBackStreamVideo) mCallBack).onError();
+            ((ModelCallBackStreamVideo) mCallBack).onError(ERROR_TYPE.NETWORK);
             return;
         }
         VideoStreamApi api = new VideoStreamApi(new ApiListener() {
             @Override
             public void onError(VolleyError statusCode) {
                 DebugLog.log_e(TAG, "error");
-                ((ModelCallBackStreamVideo) mCallBack).onError();
+                ((ModelCallBackStreamVideo) mCallBack).onError(ERROR_TYPE.NETWORK);
             }
 
             @Override
@@ -68,7 +68,7 @@ public class StreamVideoModel extends ModelCommon {
                     }
                 }catch (Exception e){
                     DebugLog.log_e(TAG, "parse");
-                    ((ModelCallBackStreamVideo) mCallBack).onError();
+                    ((ModelCallBackStreamVideo) mCallBack).onError(ERROR_TYPE.NETWORK);
                     return;
                 }
 
@@ -89,7 +89,7 @@ public class StreamVideoModel extends ModelCommon {
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ((ModelCallBackStreamVideo) mCallBack).onBinData(url_stream.get(0));
+                                        ((ModelCallBackStreamVideo) mCallBack).onData(url_stream.get(0));
                                     }
                                 });
 

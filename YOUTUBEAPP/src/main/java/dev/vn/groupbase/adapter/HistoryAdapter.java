@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import app.thn.groupbase.youtubeapp.R;
+import dev.vn.groupbase.activity.PlayListItemsActivity;
 import dev.vn.groupbase.database.HistoryTable;
 
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_IMAGE;
@@ -157,13 +158,13 @@ public class HistoryAdapter extends BaseExpandableListAdapter {
                 } catch (Exception e){
                     url = "";
                 }
-//                Intent intent = new Intent(mContext, PlayListItemsActivity.class);
-//                Bundle data = new Bundle();
-//                data.putString(PLAY_LIST_KEY,obj.playListId);
-//                data.putString(LIST_PLAY_TITLE,obj.playListName);
-//                data.putString(LIST_PLAY_IMAGE,url);
-//                intent.putExtras(data);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, PlayListItemsActivity.class);
+                Bundle data = new Bundle();
+                data.putString(PLAY_LIST_KEY,obj.playListId);
+                data.putString(LIST_PLAY_TITLE,obj.playListName);
+                data.putString(LIST_PLAY_IMAGE,url);
+                intent.putExtras(data);
+                mContext.startActivity(intent);
             }
         });
         return convertView;

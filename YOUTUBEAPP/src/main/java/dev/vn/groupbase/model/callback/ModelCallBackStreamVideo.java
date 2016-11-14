@@ -7,5 +7,5 @@ import dev.vn.groupbase.common.ModelCallBack;
  */
 
 public interface ModelCallBackStreamVideo extends ModelCallBack {
-    void onError();
+    void onData(String url);
 }

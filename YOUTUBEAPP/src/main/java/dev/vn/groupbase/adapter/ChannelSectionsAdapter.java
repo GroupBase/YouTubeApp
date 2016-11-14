@@ -13,6 +13,7 @@ import java.util.List;
 
 import app.thn.groupbase.youtubeapp.R;
 import dev.vn.groupbase.database.ChannelSectionsTable;
+import dev.vn.groupbase.listener.OnItemClickListener;
 
 
 /**
@@ -22,12 +23,18 @@ import dev.vn.groupbase.database.ChannelSectionsTable;
 public class ChannelSectionsAdapter extends RecyclerView.Adapter<ChannelSectionsAdapter.ChannelSectionsViewHolder> {
     private Context mContext;
     private List<ChannelSectionsTable> list;
-
+    private OnItemClickListener listener;
+    public void setListener(OnItemClickListener itemClickListener){
+        this.listener = itemClickListener;
+    }
     public ChannelSectionsAdapter(List<ChannelSectionsTable> lst, Context context) {
         list = lst;
         mContext = context;
     }
 
+    public ChannelSectionsTable getObject(int position){
+        return list.get(position);
+    }
     @Override
     public ChannelSectionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -40,17 +47,6 @@ public class ChannelSectionsAdapter extends RecyclerView.Adapter<ChannelSections
     public void onBindViewHolder(ChannelSectionsViewHolder holder, int position) {
         final ChannelSectionsTable obj = list.get(position);
         holder.title.setText(obj.name);
-        holder.title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString(PlayListModel.LIST_PLAY_LIST_KEY,obj.playList);
-//                bundle.putString(ChannelSectionsModel.CHENNEL_SECTIONS_TITLE,obj.name);
-//                Intent intent = new Intent(mContext, PlayListActivity.class);
-//                intent.putExtras(bundle);
-//                mContext.startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -64,6 +60,14 @@ public class ChannelSectionsAdapter extends RecyclerView.Adapter<ChannelSections
         public ChannelSectionsViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tv_title);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener!=null){
+                        listener.onItemClick(v,getLayoutPosition());
+                    }
+                }
+            });
         }
     }
 }
