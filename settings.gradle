@@ -1,0 +1,5 @@
+include ':YOUTUBEAPP'
+include ':gmolib'
+project(':gmolib').projectDir = new File(settingsDir, '../GmoLib/gmolib')
+include ':volley'
+project(':volley').projectDir = new File(settingsDir, '../GmoLib/volley')

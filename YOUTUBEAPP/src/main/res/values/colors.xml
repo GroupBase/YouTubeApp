@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="splash_background">#FF4081</color>
+    <color name="background_main">#FFFFFF</color>
+    <color name="tabIndicatorColor">#000000</color>
+    <color name="menu_select">#2196F3</color>
+    <color name="text_black">#000000</color>
+    <color name="background_channelsection">#000000</color>
+    <color name="menu_background">#FFFFFF</color>
+</resources>

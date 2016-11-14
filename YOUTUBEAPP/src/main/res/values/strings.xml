@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">YouTubeApp</string>
+    <string name="channel_key">UCXGVT1ge8D2h2k79szmITsQ</string>
+    <string name="init_data">Đang nạp dữ liệu ...</string>
+</resources>
