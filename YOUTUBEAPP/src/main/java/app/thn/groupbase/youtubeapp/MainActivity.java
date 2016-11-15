@@ -1,12 +1,31 @@
 package app.thn.groupbase.youtubeapp;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
-import dev.vn.groupbase.activity.BaseActivity;
+import com.startapp.android.publish.StartAppAd;
+import com.startapp.android.publish.StartAppSDK;
+import com.startapp.android.publish.splash.SplashConfig;
+
+import dev.vn.groupbase.common.ActivityCommon;
 import dev.vn.groupbase.common.ViewManager;
 import dev.vn.groupbase.fragment.SplashFragment;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends ActivityCommon {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        StartAppSDK.init(this, getString(R.string.start_app_id), true);
+
+        /** Create Splash Ad **/
+        StartAppAd.showSplash(this, savedInstanceState,
+                new SplashConfig()
+                        .setTheme(SplashConfig.Theme.GLOOMY)
+                        .setLogo(R.mipmap.ic_launcher)
+                        .setAppName(getString(R.string.app_name))
+        );
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected void onCreateExecute(Bundle savedInstanceState) {
@@ -14,4 +33,5 @@ public class MainActivity extends BaseActivity {
             ViewManager.getInstance().addFragment(SplashFragment.newInstance(null,SplashFragment.class),false);
         }
     }
+
 }

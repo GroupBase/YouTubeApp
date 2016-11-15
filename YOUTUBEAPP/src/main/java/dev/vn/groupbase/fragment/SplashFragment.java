@@ -41,7 +41,9 @@ public class SplashFragment extends FragmentCommon implements ModelCallBackSplas
 
     @Override
     public void complete(boolean isComplete) {
-        ViewManager.getInstance().addFragment(MainFragment.newInstance(null,MainFragment.class),false);
+        if (isComplete) {
+            ViewManager.getInstance().addFragment(MainFragment.newInstance(null, MainFragment.class), false);
+        }
     }
 
     @Override

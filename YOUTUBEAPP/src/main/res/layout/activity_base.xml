@@ -17,6 +17,7 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
+        android:visibility="gone"
         android:layout_alignParentTop="true"
         android:background="@color/menu_select" />
 
@@ -36,7 +37,7 @@
             android:layout_gravity="center"
             android:text="@string/error"
             android:textColor="@color/text_white"
-            android:textStyle="bold" />dụng
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_marginTop="@dimen/margin_10"

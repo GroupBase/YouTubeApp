@@ -1,10 +1,16 @@
 package dev.vn.groupbase.common;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import app.thn.groupbase.youtubeapp.R;
+import dev.vn.groupbase.util.Helper;
 
 
 /**
@@ -13,6 +19,11 @@ import app.thn.groupbase.youtubeapp.R;
 
 public abstract class ActivityCommon extends AppCompatActivity {
     private int mLayoutCommon = 0;
+    private ReloadListener reloadListener;
+
+    public void setReloadListener(ReloadListener reloadListener) {
+        this.reloadListener = reloadListener;
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +37,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
         initView();
         onCreateExecute(savedInstanceState);
     }
+
     protected void initView(){
 
     }
@@ -43,12 +55,15 @@ public abstract class ActivityCommon extends AppCompatActivity {
         super.onResume();
         ViewManager.getInstance().setActivity(this);
         ViewManager.getInstance().resumeActivity();
+        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         ViewManager.getInstance().pauseActivity();
+        unregisterReceiver(networkStateReceiver);
+
     }
 
     @Override
@@ -73,4 +88,36 @@ public abstract class ActivityCommon extends AppCompatActivity {
     }
 
     protected abstract void onCreateExecute(Bundle savedInstanceState);
+    public void closeApp(View v) {
+        ViewManager.getInstance().closeApplication();
+    }
+
+    public void reloadData(View v) {
+        if (Helper.isNetworkConnected(this)) {
+            showHideView();
+            reloadListener.onReload();
+        } else {
+            showErrorView();
+        }
+    }
+
+    public void showErrorView() {
+        findViewById(R.id.ln_error).setVisibility(View.VISIBLE);
+        findViewById(R.id.content).setVisibility(View.GONE);
+    }
+
+    public void showHideView() {
+        findViewById(R.id.ln_error).setVisibility(View.GONE);
+        findViewById(R.id.content).setVisibility(View.VISIBLE);
+    }
+
+    private BroadcastReceiver networkStateReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!Helper.isNetworkConnected(context)){
+                reloadListener.onShowError();
+            }
+        }
+    };
+
 }

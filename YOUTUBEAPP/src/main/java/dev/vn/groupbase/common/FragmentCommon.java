@@ -17,7 +17,7 @@ import dev.vn.groupbase.activity.BaseActivity;
  * Created by acnovn on 10/14/16.
  */
 
-public abstract class FragmentCommon extends Fragment implements BaseActivity.ReloadListener {
+public abstract class FragmentCommon extends Fragment implements ReloadListener {
     protected ModelCommon mModelCommon;
     private View mView;
     private boolean isFirst = false;
@@ -87,8 +87,8 @@ public abstract class FragmentCommon extends Fragment implements BaseActivity.Re
             Bundle bundle = getArguments();
             mModelCommon.getData(bundle);
         }
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).setReloadListener(this);
+        if (getActivity() instanceof ActivityCommon) {
+            ((ActivityCommon) getActivity()).setReloadListener(this);
         }
         initView();
         // get data API
@@ -252,15 +252,15 @@ public abstract class FragmentCommon extends Fragment implements BaseActivity.Re
 
     @Override
     public void onShowError() {
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) ViewManager.getInstance().getActivity()).showErrorView();
+        if (getActivity() instanceof ActivityCommon) {
+            ((ActivityCommon) ViewManager.getInstance().getActivity()).showErrorView();
         }
     }
 
     @Override
     public void onHideError() {
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) ViewManager.getInstance().getActivity()).showHideView();
+        if (getActivity() instanceof ActivityCommon) {
+            ((ActivityCommon) ViewManager.getInstance().getActivity()).showHideView();
         }
     }
 

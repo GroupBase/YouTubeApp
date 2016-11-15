@@ -1,11 +1,5 @@
 package dev.vn.groupbase.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -14,8 +8,6 @@ import android.view.View;
 
 import app.thn.groupbase.youtubeapp.R;
 import dev.vn.groupbase.common.ActivityCommon;
-import dev.vn.groupbase.common.ViewManager;
-import dev.vn.groupbase.util.Helper;
 
 /**
  * Created by acnovn on 11/1/16.
@@ -23,11 +15,6 @@ import dev.vn.groupbase.util.Helper;
 
 public abstract class BaseActivity extends ActivityCommon {
     private Toolbar mToolbar;
-    private ReloadListener reloadListener;
-
-    public void setReloadListener(ReloadListener reloadListener) {
-        this.reloadListener = reloadListener;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,56 +50,4 @@ public abstract class BaseActivity extends ActivityCommon {
         return mToolbar;
     }
 
-    public void closeApp(View v) {
-        ViewManager.getInstance().closeApplication();
-    }
-
-    public void reloadData(View v) {
-        if (Helper.isNetworkConnected(this)) {
-            showHideView();
-            reloadListener.onReload();
-        } else {
-            showErrorView();
-        }
-    }
-
-    public void showErrorView() {
-        findViewById(R.id.ln_error).setVisibility(View.VISIBLE);
-        findViewById(R.id.content).setVisibility(View.GONE);
-        findViewById(R.id.my_toolbar).setVisibility(View.GONE);
-    }
-
-    public void showHideView() {
-        findViewById(R.id.ln_error).setVisibility(View.GONE);
-        findViewById(R.id.content).setVisibility(View.VISIBLE);
-        findViewById(R.id.my_toolbar).setVisibility(View.VISIBLE);
-    }
-
-        private BroadcastReceiver networkStateReceiver=new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!Helper.isNetworkConnected(context)){
-                reloadListener.onShowError();
-            }else {
-                reloadListener.onHideError();
-            }
-        }
-    };
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(networkStateReceiver);
-    }
-    public interface ReloadListener {
-        void onReload();
-        void onShowError();
-        void onHideError();
-    }
 }
