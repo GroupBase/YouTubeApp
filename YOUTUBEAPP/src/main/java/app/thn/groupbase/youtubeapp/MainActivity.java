@@ -16,14 +16,14 @@ public class MainActivity extends ActivityCommon {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         StartAppSDK.init(this, getString(R.string.start_app_id), true);
-
+        StartAppAd.disableSplash();
         /** Create Splash Ad **/
-        StartAppAd.showSplash(this, savedInstanceState,
-                new SplashConfig()
-                        .setTheme(SplashConfig.Theme.GLOOMY)
-                        .setLogo(R.mipmap.ic_launcher)
-                        .setAppName(getString(R.string.app_name))
-        );
+//        StartAppAd.showSplash(this, savedInstanceState,
+//                new SplashConfig()
+//                        .setTheme(SplashConfig.Theme.GLOOMY)
+//                        .setLogo(R.mipmap.ic_launcher)
+//                        .setAppName(getString(R.string.app_name))
+//        );
         super.onCreate(savedInstanceState);
     }
 
