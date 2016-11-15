@@ -23,6 +23,12 @@ import dev.vn.groupbase.util.Helper;
 
 public abstract class BaseActivity extends ActivityCommon {
     private Toolbar mToolbar;
+    private ReloadListener reloadListener;
+
+    public void setReloadListener(ReloadListener reloadListener) {
+        this.reloadListener = reloadListener;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setLayOutCommon(R.layout.activity_base);
@@ -34,10 +40,12 @@ public abstract class BaseActivity extends ActivityCommon {
     public void initView() {
         initToolBar();
     }
+
     public void initToolBar() {
         View toolBarView = getLayoutInflater().inflate(R.layout.base_menu_top, null);
         setToolBarView(toolBarView);
     }
+
     public void setToolBarView(View toolBarView) {
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
@@ -50,38 +58,61 @@ public abstract class BaseActivity extends ActivityCommon {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
     }
+
     public Toolbar getToolbar() {
         return mToolbar;
     }
-    public void closeApp(View v){
+
+    public void closeApp(View v) {
         ViewManager.getInstance().closeApplication();
     }
-    public void showErrorView(){
+
+    public void reloadData(View v) {
+        if (Helper.isNetworkConnected(this)) {
+            showHideView();
+            reloadListener.onReload();
+        } else {
+            showErrorView();
+        }
+    }
+
+    public void showErrorView() {
         findViewById(R.id.ln_error).setVisibility(View.VISIBLE);
+        findViewById(R.id.content).setVisibility(View.GONE);
+        findViewById(R.id.my_toolbar).setVisibility(View.GONE);
     }
-    public void showhideView(){
+
+    public void showHideView() {
         findViewById(R.id.ln_error).setVisibility(View.GONE);
+        findViewById(R.id.content).setVisibility(View.VISIBLE);
+        findViewById(R.id.my_toolbar).setVisibility(View.VISIBLE);
     }
-//    private BroadcastReceiver networkStateReceiver=new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (Helper.isNetworkConnected(context)){
-//                showhideView();
-//            } else {
-//                showErrorView();
-//            }
-//        }
-//    };
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        unregisterReceiver(networkStateReceiver);
-//    }
+
+        private BroadcastReceiver networkStateReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!Helper.isNetworkConnected(context)){
+                reloadListener.onShowError();
+            }else {
+                reloadListener.onHideError();
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(networkStateReceiver);
+    }
+    public interface ReloadListener {
+        void onReload();
+        void onShowError();
+        void onHideError();
+    }
 }

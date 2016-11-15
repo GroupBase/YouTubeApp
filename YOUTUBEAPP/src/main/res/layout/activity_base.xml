@@ -38,14 +38,32 @@
             android:textColor="@color/text_white"
             android:textStyle="bold" />dụng
 
-        <TextView
-            android:id="@+id/tv_close"
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_5"
-            android:background="@drawable/button_corner"
-            android:onClick="closeApp"
-            android:text="@string/close_app"
-            android:textColor="@color/text_black" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_corner"
+                android:onClick="closeApp"
+                android:text="@string/close_app"
+                android:layout_marginRight="@dimen/margin_5"
+                android:textColor="@color/text_black" />
+
+            <TextView
+                android:id="@+id/tv_reload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_corner"
+                android:onClick="reloadData"
+                android:text="@string/reload_data"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:textColor="@color/text_black" />
+        </LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>

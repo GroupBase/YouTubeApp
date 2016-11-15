@@ -48,8 +48,13 @@ public class SplashFragment extends FragmentCommon implements ModelCallBackSplas
     public void onError(ModelCommon.ERROR_TYPE error_type) {
         switch (error_type){
             case NETWORK:
-                ((BaseActivity)ViewManager.getInstance().getActivity()).showErrorView();
+                onShowError();
                 break;
         }
+    }
+
+    @Override
+    public void onReload() {
+        mModel.requestChannelSection();
     }
 }
