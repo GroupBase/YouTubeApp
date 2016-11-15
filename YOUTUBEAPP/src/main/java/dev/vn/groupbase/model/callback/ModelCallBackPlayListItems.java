@@ -1,4 +1,4 @@
-package dev.vn.groupbase.listener;
+package dev.vn.groupbase.model.callback;
 
 import java.util.List;
 
@@ -9,6 +9,6 @@ import dev.vn.groupbase.common.ModelCallBack;
  * Created by acnovn on 10/27/16.
  */
 
-public interface PlayListItemsListener extends ModelCallBack {
+public interface ModelCallBackPlayListItems extends ModelCallBack {
     void onLoadData(List<PlayListItemEntity> list);
 }

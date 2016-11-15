@@ -9,6 +9,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +23,7 @@ import dev.vn.groupbase.api.entity.PlayListEntity;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.listener.OnItemClickListener;
-import dev.vn.groupbase.listener.PlayListListener;
+import dev.vn.groupbase.model.callback.ModelCallBackPlayList;
 import dev.vn.groupbase.model.ChannelSectionsModel;
 import dev.vn.groupbase.model.PlayListModel;
 
@@ -31,11 +35,13 @@ import static dev.vn.groupbase.model.PlayListModel.PLAY_LIST_KEY;
  * Created by acnovn on 10/27/16.
  */
 
-public class PlayListFragment extends FragmentCommon implements PlayListListener ,OnItemClickListener{
+public class PlayListFragment extends FragmentCommon implements ModelCallBackPlayList,OnItemClickListener{
     private PlayListModel mModel;
     private List<PlayListEntity> lst = new ArrayList<>();
     private RecyclerView recyclerView;
     private PlayListAdapter mAdapter;
+    InterstitialAd mInterstitialAd;
+    private PlayListEntity obj_sender;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_playlist;
@@ -44,8 +50,24 @@ public class PlayListFragment extends FragmentCommon implements PlayListListener
     @Override
     protected void initView() {
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        mInterstitialAd = new InterstitialAd(mContext);
+        mInterstitialAd.setAdUnitId(getString(R.string.admod_id));
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                showVideoList();
+            }
+        });
+        requestNewInterstitial();
     }
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("9F715FB9B5E60D162D735A986D2FA70B")
+                .build();
 
+        mInterstitialAd.loadAd(adRequest);
+    }
     @Override
     protected ModelCommon initModel() {
         if (mModel==null){
@@ -84,29 +106,42 @@ public class PlayListFragment extends FragmentCommon implements PlayListListener
 
     @Override
     public void onItemClick(View itemView, int position) {
-        PlayListEntity obj = mAdapter.getObject(position);
-        String url_data;
-        try {
-            if (!TextUtils.isEmpty(obj.snippet.thumbnails.maxres.url)) {
-                url_data = obj.snippet.thumbnails.maxres.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.standard.url)) {
-                url_data = obj.snippet.thumbnails.standard.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.high.url)) {
-                url_data = obj.snippet.thumbnails.high.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.medium.url)) {
-                url_data = obj.snippet.thumbnails.medium.url;
-            } else {
-                url_data = obj.snippet.thumbnails.default_url.url;
-            }
-        } catch (Exception e){
-            url_data = "";
+        obj_sender = mAdapter.getObject(position);
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            showVideoList();
         }
-        Intent intent = new Intent(mContext, PlayListItemsActivity.class);
-        Bundle data = new Bundle();
-        data.putString(PLAY_LIST_KEY,obj.id);
-        data.putString(LIST_PLAY_TITLE,obj.snippet.title);
-        data.putString(LIST_PLAY_IMAGE,url_data);
-        intent.putExtras(data);
-        startActivity(intent);
+
+    }
+    private void showVideoList(){
+        if (obj_sender!=null) {
+            String url_data;
+            try {
+                if (!TextUtils.isEmpty(obj_sender.snippet.thumbnails.maxres.url)) {
+                    url_data = obj_sender.snippet.thumbnails.maxres.url;
+                } else if (!TextUtils.isEmpty(obj_sender.snippet.thumbnails.standard.url)) {
+                    url_data = obj_sender.snippet.thumbnails.standard.url;
+                } else if (!TextUtils.isEmpty(obj_sender.snippet.thumbnails.high.url)) {
+                    url_data = obj_sender.snippet.thumbnails.high.url;
+                } else if (!TextUtils.isEmpty(obj_sender.snippet.thumbnails.medium.url)) {
+                    url_data = obj_sender.snippet.thumbnails.medium.url;
+                } else {
+                    url_data = obj_sender.snippet.thumbnails.default_url.url;
+                }
+            } catch (Exception e) {
+                url_data = "";
+            }
+            Intent intent = new Intent(mContext, PlayListItemsActivity.class);
+            Bundle data_sender = new Bundle();
+            data_sender.putString(PLAY_LIST_KEY, obj_sender.id);
+            data_sender.putString(LIST_PLAY_TITLE, obj_sender.snippet.title);
+            data_sender.putString(LIST_PLAY_IMAGE, url_data);
+            intent.putExtras(data_sender);
+            startActivity(intent);
+            obj_sender = null;
+        } else {
+            return;
+        }
     }
 }

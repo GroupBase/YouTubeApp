@@ -12,7 +12,7 @@ import dev.vn.groupbase.api.parser.PlayListParser;
 import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ProgressLoading;
-import dev.vn.groupbase.listener.PlayListListener;
+import dev.vn.groupbase.model.callback.ModelCallBackPlayList;
 import gmo.hcm.net.lib.ApiListener;
 
 /**
@@ -25,7 +25,7 @@ public class PlayListModel extends ModelCommon {
     public static String LIST_PLAY_TITLE = "play_list_title";
     public static String LIST_PLAY_IMAGE = "play_list_image";
     private String mListPlayListId;
-    public PlayListModel (PlayListListener listener) {
+    public PlayListModel (ModelCallBackPlayList listener) {
         super(listener);
     }
     @Override
@@ -47,7 +47,7 @@ public class PlayListModel extends ModelCommon {
             public void onFinish(Object result, boolean endRequest) {
                 DebugLog.log("JsonResult:",result.toString());
                 ArrayList<PlayListEntity>lst=PlayListParser.parser(result.toString());
-                ((PlayListListener)mCallBack).onLoadData(lst);
+                ((ModelCallBackPlayList)mCallBack).onLoadData(lst);
                 ProgressLoading.dismiss();
             }
         });

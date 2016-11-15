@@ -28,7 +28,7 @@ import dev.vn.groupbase.database.BookMarkTable;
 import dev.vn.groupbase.database.HistoryTable;
 import dev.vn.groupbase.database.YouTubeAppManager;
 import dev.vn.groupbase.listener.OnItemClickListener;
-import dev.vn.groupbase.listener.PlayListItemsListener;
+import dev.vn.groupbase.model.callback.ModelCallBackPlayListItems;
 import dev.vn.groupbase.listener.StreamVideoListener;
 import dev.vn.groupbase.model.PlayListItemsModel;
 
@@ -41,7 +41,7 @@ import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_TITLE;
  * Created by acnovn on 10/31/16.
  */
 
-public class PlayListItemsFragment extends FragmentCommon implements PlayListItemsListener, OnItemClickListener, StreamVideoListener {
+public class PlayListItemsFragment extends FragmentCommon implements ModelCallBackPlayListItems, OnItemClickListener, StreamVideoListener {
     private PlayListItemsModel mModel;
     private List<PlayListItemEntity> lst = new ArrayList<>();
     private RecyclerView recyclerView;

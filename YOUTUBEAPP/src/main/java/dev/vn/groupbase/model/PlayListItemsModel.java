@@ -6,13 +6,12 @@ import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 
-import dev.vn.groupbase.api.PlayListApi;
 import dev.vn.groupbase.api.PlayListItemsApi;
 import dev.vn.groupbase.api.entity.PlayListItemEntity;
 import dev.vn.groupbase.api.parser.PlayListItemParser;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ProgressLoading;
-import dev.vn.groupbase.listener.PlayListItemsListener;
+import dev.vn.groupbase.model.callback.ModelCallBackPlayListItems;
 import gmo.hcm.net.lib.ApiListener;
 
 import static dev.vn.groupbase.model.PlayListModel.PLAY_LIST_KEY;
@@ -31,7 +30,7 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
     }
 
 
-    public PlayListItemsModel (PlayListItemsListener listener) {
+    public PlayListItemsModel (ModelCallBackPlayListItems listener) {
         super(listener);
     }
 
@@ -50,7 +49,7 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
     @Override
     public void onFinish(Object result, boolean endRequest) {
         ArrayList<PlayListItemEntity> list = PlayListItemParser.parser(result.toString());
-        ((PlayListItemsListener)mCallBack).onLoadData(list);
+        ((ModelCallBackPlayListItems)mCallBack).onLoadData(list);
         ProgressLoading.dismiss();
 
     }

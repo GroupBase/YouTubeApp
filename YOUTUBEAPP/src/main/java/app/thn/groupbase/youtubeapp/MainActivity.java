@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 
 import com.startapp.android.publish.StartAppAd;
 import com.startapp.android.publish.StartAppSDK;
-import com.startapp.android.publish.splash.SplashConfig;
 
 import dev.vn.groupbase.common.ActivityCommon;
 import dev.vn.groupbase.common.ViewManager;
@@ -17,13 +16,6 @@ public class MainActivity extends ActivityCommon {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         StartAppSDK.init(this, getString(R.string.start_app_id), true);
         StartAppAd.disableSplash();
-        /** Create Splash Ad **/
-//        StartAppAd.showSplash(this, savedInstanceState,
-//                new SplashConfig()
-//                        .setTheme(SplashConfig.Theme.GLOOMY)
-//                        .setLogo(R.mipmap.ic_launcher)
-//                        .setAppName(getString(R.string.app_name))
-//        );
         super.onCreate(savedInstanceState);
     }
 
@@ -34,4 +26,9 @@ public class MainActivity extends ActivityCommon {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        StartAppAd.onBackPressed(this);
+        super.onBackPressed();
+    }
 }
