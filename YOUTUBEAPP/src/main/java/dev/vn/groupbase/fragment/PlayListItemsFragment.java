@@ -33,6 +33,7 @@ import dev.vn.groupbase.model.callback.ModelCallBackPlayListItems;
 import dev.vn.groupbase.listener.StreamVideoListener;
 import dev.vn.groupbase.model.PlayListItemsModel;
 import gmo.hcm.net.lib.RequestError;
+import vn.amobi.util.ads.video.AmobiVideoAdListener;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -43,7 +44,7 @@ import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_TITLE;
  * Created by acnovn on 10/31/16.
  */
 
-public class PlayListItemsFragment extends FragmentCommon implements ModelCallBackPlayListItems, OnItemClickListener, StreamVideoListener {
+public class PlayListItemsFragment extends FragmentCommon implements ModelCallBackPlayListItems, OnItemClickListener, StreamVideoListener  {
     private PlayListItemsModel mModel;
     private List<PlayListItemEntity> lst = new ArrayList<>();
     private RecyclerView recyclerView;

@@ -28,12 +28,15 @@ import dev.vn.groupbase.listener.StreamVideoListener;
 import dev.vn.groupbase.model.StreamVideoModel;
 import dev.vn.groupbase.model.callback.ModelCallBackStreamVideo;
 import gmo.hcm.net.lib.RequestError;
+import vn.amobi.util.ads.video.AmobiShowVideoAdRequest;
+import vn.amobi.util.ads.video.AmobiVideoAd;
+import vn.amobi.util.ads.video.AmobiVideoAdListener;
 
 /**
  * Created by acnovn on 11/9/16.
  */
 
-public class StreamVideoFragment extends FragmentCommon implements View.OnClickListener, ModelCallBackStreamVideo, MediaController.MediaPlayerControl, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+public class StreamVideoFragment extends FragmentCommon implements View.OnClickListener, ModelCallBackStreamVideo, MediaController.MediaPlayerControl, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener ,AmobiVideoAdListener {
     private static String TAG = "StreamVideoFragment";
     private SurfaceView videoView;
     private MediaPlayer mp;
@@ -54,6 +57,8 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
 
     @Override
     protected void initView() {
+        AmobiVideoAd.getInstance().setVideoAdListener(this);
+        AmobiVideoAd.getInstance().prepare(getActivity());
         videoView = (SurfaceView) findViewById(R.id.videoView);
         thumbnail = (ImageView) findViewById(R.id.iv_thumbnails);
         if (mFirstSurface == null) {
@@ -324,5 +329,25 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void onError(RequestError error_type) {
         mStreamVideoListener.onRequestStreamError();
+    }
+
+    @Override
+    public void onAdAvailable() {
+        AmobiVideoAd.getInstance().showAd(new AmobiShowVideoAdRequest());
+    }
+
+    @Override
+    public void onPrepareError() {
+        DebugLog.showToast( "Load ad error");
+    }
+
+    @Override
+    public void onAdStarted() {
+        mp.pause();
+    }
+
+    @Override
+    public void onAdFinished() {
+        mp.start();
     }
 }

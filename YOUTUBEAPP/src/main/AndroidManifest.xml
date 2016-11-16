@@ -50,6 +50,11 @@
             android:theme="@android:style/Theme"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <!--start app-->
+        <!--amobi-->
+        <activity android:name="vn.amobi.util.ads.video.player.VideoActivity" > </activity>
+        <meta-data android:name="vn.amobi.util.ads.widget_id" android:value="@string/amobi_id" >
+        </meta-data>
+        <!--amobi-->
     </application>
 
 </manifest>
