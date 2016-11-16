@@ -55,4 +55,5 @@ public class HistoryFragment extends FragmentCommon {
             mListl.setAdapter(adapter);
         }
     }
+
 }

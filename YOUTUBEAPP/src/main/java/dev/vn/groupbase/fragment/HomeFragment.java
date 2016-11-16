@@ -74,7 +74,12 @@ public class HomeFragment extends FragmentCommon implements ModelCallBackHome, O
 
     @Override
     public void onError(RequestError error_type) {
-
+        switch (error_type){
+            case NETWORK:
+            case NETWORK_LOST:
+                onShowError();
+                break;
+        }
     }
 
     @Override

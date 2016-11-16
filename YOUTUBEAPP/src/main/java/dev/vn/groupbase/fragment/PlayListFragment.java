@@ -102,7 +102,12 @@ public class PlayListFragment extends FragmentCommon implements ModelCallBackPla
 
     @Override
     public void onError(RequestError error_type) {
-
+        switch (error_type){
+            case NETWORK:
+            case NETWORK_LOST:
+                onShowError();
+                break;
+        }
     }
 
     @Override
@@ -144,5 +149,10 @@ public class PlayListFragment extends FragmentCommon implements ModelCallBackPla
         } else {
             return;
         }
+    }
+
+    @Override
+    public void onReload() {
+        mModel.requestPlayList();
     }
 }

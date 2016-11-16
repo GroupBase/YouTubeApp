@@ -51,6 +51,7 @@ public class SplashFragment extends FragmentCommon implements ModelCallBackSplas
     public void onError(RequestError error_type) {
         switch (error_type){
             case NETWORK:
+            case NETWORK_LOST:
                 onShowError();
                 break;
         }

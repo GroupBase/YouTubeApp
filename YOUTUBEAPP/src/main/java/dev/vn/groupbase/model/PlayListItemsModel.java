@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import dev.vn.groupbase.api.PlayListItemsApi;
 import dev.vn.groupbase.api.entity.PlayListItemEntity;
 import dev.vn.groupbase.api.parser.PlayListItemParser;
+import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ProgressLoading;
 import dev.vn.groupbase.model.callback.ModelCallBackPlayListItems;
@@ -35,7 +36,7 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
         super(listener);
     }
 
-    private void requestPlayList() {
+    public void requestPlayList() {
         ProgressLoading.show();
         PlayListItemsApi api = new PlayListItemsApi(this);
         api.setPlayListId(mPlayListID);
@@ -45,7 +46,13 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
         PlayListItemsApi api = new PlayListItemsApi(new ApiListener() {
             @Override
             public void onError(RequestError requestError) {
-                ((ModelCallBackPlayListItems)mCallBack).onError(RequestError.DATA_ERROR);
+                if (requestError == RequestError.NETWORK){
+                    DebugLog.showToast("network error");
+                    ((ModelCallBackPlayListItems)mCallBack).onError(RequestError.NETWORK);
+                } else {
+                    DebugLog.showToast("network error");
+                    ((ModelCallBackPlayListItems)mCallBack).onError(RequestError.NETWORK_LOST);
+                }
             }
 
             @Override
@@ -63,7 +70,13 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
     }
     @Override
     public void onError(RequestError requestError) {
-        ((ModelCallBackPlayListItems)mCallBack).onError(requestError.DATA_ERROR);
+        if (requestError == RequestError.NETWORK){
+            DebugLog.showToast("network error");
+            ((ModelCallBackPlayListItems)mCallBack).onError(RequestError.NETWORK);
+        } else {
+            DebugLog.showToast("network error");
+            ((ModelCallBackPlayListItems)mCallBack).onError(RequestError.NETWORK_LOST);
+        }
         ProgressLoading.dismiss();
     }
 

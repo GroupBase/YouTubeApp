@@ -34,7 +34,7 @@ public class PlayListModel extends ModelCommon {
         requestPlayList();
     }
 
-    private void requestPlayList() {
+    public void requestPlayList() {
         String listId= "";
         listId = mListPlayListId.replace("[","").replace("]","");
         ProgressLoading.show();
@@ -42,6 +42,13 @@ public class PlayListModel extends ModelCommon {
             @Override
             public void onError(RequestError requestError) {
                 ProgressLoading.dismiss();
+                if (requestError == RequestError.NETWORK){
+                    DebugLog.showToast("network error");
+                    ((ModelCallBackPlayList)mCallBack).onError(RequestError.NETWORK);
+                } else {
+                    DebugLog.showToast("network error");
+                    ((ModelCallBackPlayList)mCallBack).onError(RequestError.NETWORK_LOST);
+                }
             }
 
             @Override

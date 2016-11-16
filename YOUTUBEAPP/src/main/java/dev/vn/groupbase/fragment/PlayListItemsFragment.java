@@ -191,14 +191,6 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
         }
         mAdapter.notifyDataSetChanged();
     }
-
-    //    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        if (videoBox.getVisibility() == View.VISIBLE) {
-//            recyclerView.animate().translationY(videoBox.getMeasuredHeight()).setDuration(700);
-//        }
-//    }
     private void checkBookMark(String videoID, String playListId) {
         boolean isExits = YouTubeAppManager.checkExitsBookMark(videoID, playListId);
         if (!isExits) {
@@ -321,7 +313,12 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
     @Override
     public void onError(RequestError error_type) {
-
+        switch (error_type){
+            case NETWORK:
+            case NETWORK_LOST:
+                onShowError();
+                break;
+        }
     }
 
     @Override
@@ -330,5 +327,10 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
         if (!TextUtils.isEmpty(mModel.nextPageToken)) {
             mModel.requestPlayListMore();
         }
+    }
+
+    @Override
+    public void onReload() {
+        mModel.requestPlayList();
     }
 }

@@ -71,7 +71,12 @@ public class ChannelSectionsFragment extends FragmentCommon implements ModelCall
 
     @Override
     public void onError(RequestError error_type) {
-
+        switch (error_type){
+            case NETWORK:
+            case NETWORK_LOST:
+                onShowError();
+                break;
+        }
     }
 
     @Override
