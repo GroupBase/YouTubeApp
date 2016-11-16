@@ -13,6 +13,7 @@ import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ProgressLoading;
 import dev.vn.groupbase.model.callback.ModelCallBackPlayListItems;
 import gmo.hcm.net.lib.ApiListener;
+import gmo.hcm.net.lib.RequestError;
 
 import static dev.vn.groupbase.model.PlayListModel.PLAY_LIST_KEY;
 
@@ -43,8 +44,8 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
     public void requestPlayListMore(){
         PlayListItemsApi api = new PlayListItemsApi(new ApiListener() {
             @Override
-            public void onError(VolleyError statusCode) {
-                ((ModelCallBackPlayListItems)mCallBack).onError(ERROR_TYPE.DATA_ERROR);
+            public void onError(RequestError requestError) {
+                ((ModelCallBackPlayListItems)mCallBack).onError(RequestError.DATA_ERROR);
             }
 
             @Override
@@ -61,8 +62,8 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
         api.execute();
     }
     @Override
-    public void onError(VolleyError statusCode) {
-        ((ModelCallBackPlayListItems)mCallBack).onError(ERROR_TYPE.DATA_ERROR);
+    public void onError(RequestError requestError) {
+        ((ModelCallBackPlayListItems)mCallBack).onError(requestError.DATA_ERROR);
         ProgressLoading.dismiss();
     }
 

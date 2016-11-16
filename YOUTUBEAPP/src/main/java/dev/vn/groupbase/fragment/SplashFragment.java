@@ -10,6 +10,7 @@ import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ViewManager;
 import dev.vn.groupbase.model.callback.ModelCallBackSplash;
 import dev.vn.groupbase.model.SplashModel;
+import gmo.hcm.net.lib.RequestError;
 
 /**
  * Created by acnovn on 11/7/16.
@@ -47,7 +48,7 @@ public class SplashFragment extends FragmentCommon implements ModelCallBackSplas
     }
 
     @Override
-    public void onError(ModelCommon.ERROR_TYPE error_type) {
+    public void onError(RequestError error_type) {
         switch (error_type){
             case NETWORK:
                 onShowError();

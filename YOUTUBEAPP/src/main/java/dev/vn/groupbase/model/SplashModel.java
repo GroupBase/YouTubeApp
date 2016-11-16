@@ -2,6 +2,9 @@ package dev.vn.groupbase.model;
 
 import android.os.Handler;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
@@ -10,11 +13,13 @@ import app.thn.groupbase.youtubeapp.R;
 import dev.vn.groupbase.api.ChannelSectionsApi;
 import dev.vn.groupbase.api.entity.ChannelSectionEntity;
 import dev.vn.groupbase.api.parser.ChannelSectionParser;
+import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.database.YouTubeAppManager;
 import dev.vn.groupbase.model.callback.ModelCallBackSplash;
-import dev.vn.groupbase.util.Helper;
 import gmo.hcm.net.lib.ApiListener;
+import gmo.hcm.net.lib.RequestError;
+
 
 /**
  * Created by acnovn on 11/7/16.
@@ -41,10 +46,14 @@ public class SplashModel extends ModelCommon {
 
         ChannelSectionsApi api = new ChannelSectionsApi(new ApiListener() {
             @Override
-            public void onError(VolleyError statusCode) {
-                ((ModelCallBackSplash)mCallBack).complete(false);
-                if (!Helper.isNetworkConnected(mContext)){
-                    ((ModelCallBackSplash)mCallBack).onError(ERROR_TYPE.NETWORK);
+            public void onError(RequestError requestError) {
+                if (requestError == RequestError.NETWORK){
+                    ((ModelCallBackSplash)mCallBack).onError(RequestError.NETWORK);
+                    ((ModelCallBackSplash)mCallBack).complete(false);
+                } else {
+                    DebugLog.showToast("network error");
+                    ((ModelCallBackSplash)mCallBack).onError(RequestError.NETWORK_LOST);
+                    ((ModelCallBackSplash)mCallBack).complete(false);
                 }
             }
 

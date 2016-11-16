@@ -9,6 +9,7 @@ import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.ModelCallBack;
 import dev.vn.groupbase.common.ModelCommon;
 import gmo.hcm.net.lib.ApiListener;
+import gmo.hcm.net.lib.RequestError;
 
 /**
  * Created by acnovn on 10/15/16.
@@ -40,7 +41,7 @@ public class ChannelsModel extends ModelCommon implements ApiListener{
     }
 
     @Override
-    public void onError(VolleyError statusCode) {
+    public void onError(RequestError requestError) {
 
     }
 

@@ -23,6 +23,7 @@ import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.listener.OnItemClickListener;
 import dev.vn.groupbase.model.callback.ModelCallBackHome;
 import dev.vn.groupbase.model.HomeModel;
+import gmo.hcm.net.lib.RequestError;
 
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_IMAGE;
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_TITLE;
@@ -72,7 +73,7 @@ public class HomeFragment extends FragmentCommon implements ModelCallBackHome, O
     }
 
     @Override
-    public void onError(ModelCommon.ERROR_TYPE error_type) {
+    public void onError(RequestError error_type) {
 
     }
 

@@ -14,6 +14,7 @@ import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ProgressLoading;
 import dev.vn.groupbase.model.callback.ModelCallBackPlayList;
 import gmo.hcm.net.lib.ApiListener;
+import gmo.hcm.net.lib.RequestError;
 
 /**
  * Created by acnovn on 10/27/16.
@@ -39,7 +40,7 @@ public class PlayListModel extends ModelCommon {
         ProgressLoading.show();
         PlayListApi api = new PlayListApi(new ApiListener() {
             @Override
-            public void onError(VolleyError statusCode) {
+            public void onError(RequestError requestError) {
                 ProgressLoading.dismiss();
             }
 

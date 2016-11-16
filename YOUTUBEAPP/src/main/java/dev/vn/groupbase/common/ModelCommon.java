@@ -15,9 +15,6 @@ public class ModelCommon {
     public String prevPageToken;
     public String nextPageToken;
     public PageInfoEntity pageInfo;
-    public enum ERROR_TYPE{
-        NETWORK,DATA_ERROR
-    }
     public ModelCommon() {
     }
     public ModelCommon(ModelCallBack callBack) {

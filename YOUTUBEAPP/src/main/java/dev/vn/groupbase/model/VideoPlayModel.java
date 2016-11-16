@@ -9,8 +9,9 @@ import dev.vn.groupbase.api.entity.VideoEntity;
 import dev.vn.groupbase.api.parser.VideoParser;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.model.callback.ModelCallBackVideoPlay;
-import dev.vn.groupbase.util.Helper;
 import gmo.hcm.net.lib.ApiListener;
+import gmo.hcm.net.lib.NetworkUtil;
+import gmo.hcm.net.lib.RequestError;
 
 /**
  * Created by nghiath on 11/10/16.
@@ -23,9 +24,9 @@ public class VideoPlayModel extends ModelCommon {
     public void requestVideo(String videoId){
         VideoApi api = new VideoApi(new ApiListener() {
             @Override
-            public void onError(VolleyError statusCode) {
-                if (!Helper.isNetworkConnected(mContext)) {
-                    ((ModelCallBackVideoPlay) mCallBack).onError(ERROR_TYPE.NETWORK);
+            public void onError(RequestError requestError) {
+                if (!NetworkUtil.isNetworkConnected(mContext)) {
+                    ((ModelCallBackVideoPlay) mCallBack).onError(RequestError.NETWORK);
                 }
             }
 

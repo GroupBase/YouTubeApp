@@ -15,8 +15,9 @@ import dev.vn.groupbase.api.VideoStreamApi;
 import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.model.callback.ModelCallBackStreamVideo;
-import dev.vn.groupbase.util.Helper;
 import gmo.hcm.net.lib.ApiListener;
+import gmo.hcm.net.lib.NetworkUtil;
+import gmo.hcm.net.lib.RequestError;
 
 /**
  * Created by acnovn on 11/9/16.
@@ -31,15 +32,15 @@ public class StreamVideoModel extends ModelCommon {
     }
 
     public void requestStream(final String videoId) {
-        if (!Helper.isNetworkConnected(mContext)){
-            ((ModelCallBackStreamVideo) mCallBack).onError(ERROR_TYPE.NETWORK);
+        if (!NetworkUtil.isNetworkConnected(mContext)){
+            ((ModelCallBackStreamVideo) mCallBack).onError(RequestError.NETWORK);
             return;
         }
         VideoStreamApi api = new VideoStreamApi(new ApiListener() {
             @Override
-            public void onError(VolleyError statusCode) {
+            public void onError(RequestError requestError) {
                 DebugLog.log_e(TAG, "error");
-                ((ModelCallBackStreamVideo) mCallBack).onError(ERROR_TYPE.NETWORK);
+                ((ModelCallBackStreamVideo) mCallBack).onError(RequestError.NETWORK);
             }
 
             @Override
@@ -68,7 +69,7 @@ public class StreamVideoModel extends ModelCommon {
                     }
                 }catch (Exception e){
                     DebugLog.log_e(TAG, "parse");
-                    ((ModelCallBackStreamVideo) mCallBack).onError(ERROR_TYPE.NETWORK);
+                    ((ModelCallBackStreamVideo) mCallBack).onError(RequestError.NETWORK);
                     return;
                 }
 

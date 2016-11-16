@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import app.thn.groupbase.youtubeapp.R;
-import dev.vn.groupbase.util.Helper;
+import gmo.hcm.net.lib.NetworkUtil;
 
 
 /**
@@ -93,7 +93,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
     }
 
     public void reloadData(View v) {
-        if (Helper.isNetworkConnected(this)) {
+        if (NetworkUtil.isNetworkConnected(this)) {
             showHideView();
             reloadListener.onReload();
         } else {
@@ -114,7 +114,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
     private BroadcastReceiver networkStateReceiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!Helper.isNetworkConnected(context)){
+            if (!NetworkUtil.isNetworkConnected(context)){
                 reloadListener.onShowError();
             }
         }

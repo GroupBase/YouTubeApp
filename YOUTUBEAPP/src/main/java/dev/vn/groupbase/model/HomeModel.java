@@ -16,8 +16,11 @@ import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ProgressLoading;
 import dev.vn.groupbase.model.callback.ModelCallBackHome;
-import dev.vn.groupbase.util.Helper;
 import gmo.hcm.net.lib.ApiListener;
+import gmo.hcm.net.lib.NetworkUtil;
+import gmo.hcm.net.lib.RequestError;
+
+import static gmo.hcm.net.lib.RequestError.NETWORK;
 
 /**
  * Created by acnovn on 10/25/16.
@@ -37,14 +40,14 @@ public class HomeModel extends ModelCommon {
 
     public void requestChannelSection() {
         ProgressLoading.show();
-        if (!Helper.isNetworkConnected(mContext)){
-            ((ModelCallBackHome) mCallBack).onError(ERROR_TYPE.NETWORK);
+        if (!NetworkUtil.isNetworkConnected(mContext)){
+            ((ModelCallBackHome) mCallBack).onError(NETWORK);
             ProgressLoading.dismiss();
             return;
         }
         ChannelSectionsApi api = new ChannelSectionsApi(new ApiListener() {
             @Override
-            public void onError(VolleyError statusCode) {
+            public void onError(RequestError requestError) {
                 DebugLog.log_e(TAG, "requestChannelSection");
                 ProgressLoading.dismiss();
             }
@@ -71,7 +74,7 @@ public class HomeModel extends ModelCommon {
             DebugLog.log("index_Random",index+"");
             PlayListItemsApi api = new PlayListItemsApi(new ApiListener() {
                 @Override
-                public void onError(VolleyError statusCode) {
+                public void onError(RequestError requestError) {
                     DebugLog.log_e(TAG, "requestPlayListItem");
                     ProgressLoading.dismiss();
 

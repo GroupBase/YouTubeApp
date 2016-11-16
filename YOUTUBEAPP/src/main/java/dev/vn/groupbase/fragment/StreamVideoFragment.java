@@ -27,6 +27,7 @@ import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.listener.StreamVideoListener;
 import dev.vn.groupbase.model.StreamVideoModel;
 import dev.vn.groupbase.model.callback.ModelCallBackStreamVideo;
+import gmo.hcm.net.lib.RequestError;
 
 /**
  * Created by acnovn on 11/9/16.
@@ -321,7 +322,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     }
 
     @Override
-    public void onError(ModelCommon.ERROR_TYPE error_type) {
+    public void onError(RequestError error_type) {
         mStreamVideoListener.onRequestStreamError();
     }
 }

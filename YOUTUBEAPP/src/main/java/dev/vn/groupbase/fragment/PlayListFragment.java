@@ -26,6 +26,7 @@ import dev.vn.groupbase.listener.OnItemClickListener;
 import dev.vn.groupbase.model.callback.ModelCallBackPlayList;
 import dev.vn.groupbase.model.ChannelSectionsModel;
 import dev.vn.groupbase.model.PlayListModel;
+import gmo.hcm.net.lib.RequestError;
 
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_IMAGE;
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_TITLE;
@@ -100,7 +101,7 @@ public class PlayListFragment extends FragmentCommon implements ModelCallBackPla
     }
 
     @Override
-    public void onError(ModelCommon.ERROR_TYPE error_type) {
+    public void onError(RequestError error_type) {
 
     }
 

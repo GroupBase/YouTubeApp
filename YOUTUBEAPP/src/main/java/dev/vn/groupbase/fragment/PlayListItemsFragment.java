@@ -32,6 +32,7 @@ import dev.vn.groupbase.listener.OnItemClickListener;
 import dev.vn.groupbase.model.callback.ModelCallBackPlayListItems;
 import dev.vn.groupbase.listener.StreamVideoListener;
 import dev.vn.groupbase.model.PlayListItemsModel;
+import gmo.hcm.net.lib.RequestError;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -319,7 +320,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     }
 
     @Override
-    public void onError(ModelCommon.ERROR_TYPE error_type) {
+    public void onError(RequestError error_type) {
 
     }
 

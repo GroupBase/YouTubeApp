@@ -34,6 +34,7 @@ import dev.vn.groupbase.database.YouTubeAppManager;
 import dev.vn.groupbase.listener.StreamVideoListener;
 import dev.vn.groupbase.model.VideoPlayModel;
 import dev.vn.groupbase.model.callback.ModelCallBackVideoPlay;
+import gmo.hcm.net.lib.RequestError;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -239,7 +240,7 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
     }
 
     @Override
-    public void onError(ModelCommon.ERROR_TYPE error_type) {
+    public void onError(RequestError error_type) {
         switch (error_type){
             case NETWORK:
                 ((BaseActivity)ViewManager.getInstance().getActivity()).showErrorView();

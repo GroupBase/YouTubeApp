@@ -23,6 +23,7 @@ import dev.vn.groupbase.listener.OnItemClickListener;
 import dev.vn.groupbase.model.PlayListModel;
 import dev.vn.groupbase.model.callback.ModelCallBackChannelSections;
 import dev.vn.groupbase.model.ChannelSectionsModel;
+import gmo.hcm.net.lib.RequestError;
 
 /**
  * Created by acnovn on 10/26/16.
@@ -69,7 +70,7 @@ public class ChannelSectionsFragment extends FragmentCommon implements ModelCall
     }
 
     @Override
-    public void onError(ModelCommon.ERROR_TYPE error_type) {
+    public void onError(RequestError error_type) {
 
     }
 
