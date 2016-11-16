@@ -40,15 +40,38 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
         api.setPlayListId(mPlayListID);
         api.execute();
     }
+    public void requestPlayListMore(){
+        PlayListItemsApi api = new PlayListItemsApi(new ApiListener() {
+            @Override
+            public void onError(VolleyError statusCode) {
+                ((ModelCallBackPlayListItems)mCallBack).onError(ERROR_TYPE.DATA_ERROR);
+            }
 
+            @Override
+            public void onFinish(Object result, boolean endRequest) {
+                ArrayList<PlayListItemEntity> list = PlayListItemParser.parser(result.toString());
+                pageInfo = PlayListItemParser.pageInfo;
+                nextPageToken = PlayListItemParser.nextPageToken;
+                prevPageToken = PlayListItemParser.prevPageToken;
+                ((ModelCallBackPlayListItems)mCallBack).onLoadNext(list);
+            }
+        });
+        api.setPlayListId(mPlayListID);
+        api.setNextPage(this.nextPageToken);
+        api.execute();
+    }
     @Override
     public void onError(VolleyError statusCode) {
+        ((ModelCallBackPlayListItems)mCallBack).onError(ERROR_TYPE.DATA_ERROR);
         ProgressLoading.dismiss();
     }
 
     @Override
     public void onFinish(Object result, boolean endRequest) {
         ArrayList<PlayListItemEntity> list = PlayListItemParser.parser(result.toString());
+        this.pageInfo = PlayListItemParser.pageInfo;
+        this.nextPageToken = PlayListItemParser.nextPageToken;
+        this.prevPageToken = PlayListItemParser.prevPageToken;
         ((ModelCallBackPlayListItems)mCallBack).onLoadData(list);
         ProgressLoading.dismiss();
 

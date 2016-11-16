@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 
 import app.thn.groupbase.youtubeapp.R;
 import dev.vn.groupbase.activity.BaseActivity;
+import dev.vn.groupbase.listener.LoadMoreListener;
 
 /**
  * Created by acnovn on 10/14/16.
  */
 
-public abstract class FragmentCommon extends Fragment implements ReloadListener {
+public abstract class FragmentCommon extends Fragment implements ReloadListener , LoadMoreListener{
     protected ModelCommon mModelCommon;
     private View mView;
     private boolean isFirst = false;
@@ -266,6 +267,11 @@ public abstract class FragmentCommon extends Fragment implements ReloadListener 
 
     @Override
     public void onReload() {
+
+    }
+
+    @Override
+    public void onLoadMore() {
 
     }
 }

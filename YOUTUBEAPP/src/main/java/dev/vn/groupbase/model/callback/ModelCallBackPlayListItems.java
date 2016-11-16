@@ -11,4 +11,5 @@ import dev.vn.groupbase.common.ModelCallBack;
 
 public interface ModelCallBackPlayListItems extends ModelCallBack {
     void onLoadData(List<PlayListItemEntity> list);
+    void onLoadNext(List<PlayListItemEntity> list);
 }

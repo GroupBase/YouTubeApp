@@ -19,6 +19,9 @@ public class PlayListItemParser extends ParserYoutubeBase {
         PlayListItemParser mParser = new PlayListItemParser();
         try {
             JSONObject root = new JSONObject(jsonResult);
+            PlayListItemParser.pageInfo = ParserYoutubeBase.getPageInfo(root);
+            PlayListItemParser.nextPageToken = ParserYoutubeBase.getNextPageToken(root);
+            PlayListItemParser.prevPageToken = ParserYoutubeBase.getPrevPageToken(root);
             JSONArray items = getItems(root);
             if (items != null) {
                 for (int i = 0; i < items.length(); i++) {

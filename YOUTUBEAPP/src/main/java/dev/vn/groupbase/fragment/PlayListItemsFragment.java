@@ -21,6 +21,7 @@ import java.util.List;
 import app.thn.groupbase.youtubeapp.R;
 import dev.vn.groupbase.adapter.PlayListItemsAdapter;
 import dev.vn.groupbase.api.entity.PlayListItemEntity;
+import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ProgressLoading;
@@ -83,6 +84,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
         }
     };
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_playlist_items;
@@ -92,13 +94,13 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     protected void initView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         iv_bookMark = (ImageView) findViewById(R.id.iv_bookMark);
-        imagePlayList = getArguments().getString(LIST_PLAY_IMAGE,"");
-        close_button = (ImageView)findViewById(R.id.close_button);
-        titlePlayList = getArguments().getString(LIST_PLAY_TITLE,"");
+        imagePlayList = getArguments().getString(LIST_PLAY_IMAGE, "");
+        close_button = (ImageView) findViewById(R.id.close_button);
+        titlePlayList = getArguments().getString(LIST_PLAY_TITLE, "");
         iv_bookMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookMarkTable != null){
+                if (bookMarkTable != null) {
                     YouTubeAppManager.insertBookMark(bookMarkTable);
                     iv_bookMark.setVisibility(View.GONE);
                 }
@@ -119,9 +121,9 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     public void setVisibilityActionBar() {
         mToolbarLeft.setVisibility(View.VISIBLE);
         Bundle bundle = getArguments();
-        if (bundle!=null){
-            if(bundle.containsKey(LIST_PLAY_TITLE)) {
-                ((TextView)mToolbarLeft.findViewById(R.id.tv_title)).setText(bundle.getString(LIST_PLAY_TITLE));
+        if (bundle != null) {
+            if (bundle.containsKey(LIST_PLAY_TITLE)) {
+                ((TextView) mToolbarLeft.findViewById(R.id.tv_title)).setText(bundle.getString(LIST_PLAY_TITLE));
             }
         }
     }
@@ -129,7 +131,11 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     @Override
     public void onLoadData(List<PlayListItemEntity> list) {
         lst = list;
+        if (!TextUtils.isEmpty(mModel.nextPageToken)){
+            lst.add(null);
+        }
         mAdapter = new PlayListItemsAdapter(lst, getContext(), this);
+        mAdapter.setLoadMoreListener(this);
         videoFragment =
                 (StreamVideoFragment) getChildFragmentManager().findFragmentById(R.id.video_fragment_container);
         videoFragment.setListener(this);
@@ -175,16 +181,26 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
     }
 
-//    @Override
+    @Override
+    public void onLoadNext(List<PlayListItemEntity> list) {
+        lst.remove(lst.size()-1);
+        lst.addAll(list);
+        if (!TextUtils.isEmpty(mModel.nextPageToken)) {
+            lst.add(null);
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    //    @Override
 //    public void onConfigurationChanged(Configuration newConfig) {
 //        super.onConfigurationChanged(newConfig);
 //        if (videoBox.getVisibility() == View.VISIBLE) {
 //            recyclerView.animate().translationY(videoBox.getMeasuredHeight()).setDuration(700);
 //        }
 //    }
-    private void checkBookMark(String videoID,String playListId){
-        boolean isExits = YouTubeAppManager.checkExitsBookMark(videoID,playListId);
-        if (!isExits){
+    private void checkBookMark(String videoID, String playListId) {
+        boolean isExits = YouTubeAppManager.checkExitsBookMark(videoID, playListId);
+        if (!isExits) {
             iv_bookMark.setVisibility(View.VISIBLE);
         } else {
             iv_bookMark.setVisibility(View.GONE);
@@ -197,7 +213,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
         mAdapter.setSelect(true);
         PlayListItemEntity obj = mAdapter.getItemObject(position);
         String videoId = mAdapter.getVideoId(position);
-        String url="";
+        String url = "";
         try {
             if (!TextUtils.isEmpty(obj.snippet.thumbnails.maxres.url)) {
                 url = obj.snippet.thumbnails.maxres.url;
@@ -207,21 +223,21 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
                 url = obj.snippet.thumbnails.high.url;
             } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.medium.url)) {
                 url = obj.snippet.thumbnails.medium.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.default_url.url)){
+            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.default_url.url)) {
                 url = obj.snippet.thumbnails.default_url.url;
             }
         } catch (Exception e) {
-            url="";
+            url = "";
         }
         if (!TextUtils.isEmpty(videoId)) {
-            videoFragment.loadVideo(videoId,url);
+            videoFragment.loadVideo(videoId, url);
 
         }
         HistoryTable historyTable = new HistoryTable();
         historyTable.videoId = videoId;
         historyTable.videoName = obj.snippet.title;
         historyTable.playListId = obj.snippet.playlistId;
-        historyTable.playListName =getArguments().getString(LIST_PLAY_TITLE);
+        historyTable.playListName = getArguments().getString(LIST_PLAY_TITLE);
         historyTable.imgPlayList = imagePlayList;
         historyTable.imgVideo = url;
         YouTubeAppManager.insertHistory(historyTable);
@@ -235,12 +251,13 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
         mAdapter.notifyDataSetChanged();
     }
 
-    public  void setLayoutSize(View view, int width, int height) {
+    public void setLayoutSize(View view, int width, int height) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.width = width;
         params.height = height;
         view.setLayoutParams(params);
     }
+
     public void setLayoutSizeAndGravity(View view, int width, int height, int gravity) {
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
         params.width = width;
@@ -261,14 +278,14 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
     @Override
     public void onRequestStreamFinish() {
-        if(videoBox.getVisibility() != View.VISIBLE) {
+        if (videoBox.getVisibility() != View.VISIBLE) {
             videoBox.addOnLayoutChangeListener(listener);
         } else {
             ProgressLoading.dismiss();
         }
         videoBox.setVisibility(View.VISIBLE);
-        if (bookMarkTable!=null) {
-            checkBookMark(bookMarkTable.videoId,bookMarkTable.playListId);
+        if (bookMarkTable != null) {
+            checkBookMark(bookMarkTable.videoId, bookMarkTable.playListId);
         }
     }
 
@@ -296,7 +313,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
         setLayoutSize(recyclerView, MATCH_PARENT, MATCH_PARENT);
         setLayoutSizeAndGravity(videoBox, MATCH_PARENT, WRAP_CONTENT, Gravity.TOP);
         setLayoutSize(videoFragment.getView(), MATCH_PARENT, WRAP_CONTENT);
-        if (bookMarkTable!=null) {
+        if (bookMarkTable != null) {
             checkBookMark(bookMarkTable.videoId, bookMarkTable.playListId);
         }
     }
@@ -304,5 +321,13 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     @Override
     public void onError(ModelCommon.ERROR_TYPE error_type) {
 
+    }
+
+    @Override
+    public void onLoadMore() {
+        DebugLog.showToast("Load More");
+        if (!TextUtils.isEmpty(mModel.nextPageToken)) {
+            mModel.requestPlayListMore();
+        }
     }
 }

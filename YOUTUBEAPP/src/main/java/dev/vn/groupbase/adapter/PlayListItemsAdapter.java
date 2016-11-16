@@ -20,26 +20,43 @@ import app.thn.groupbase.youtubeapp.R;
 import dev.vn.groupbase.api.entity.PlayListItemEntity;
 import dev.vn.groupbase.database.HistoryTable;
 import dev.vn.groupbase.database.YouTubeAppManager;
+import dev.vn.groupbase.listener.LoadMoreListener;
 import dev.vn.groupbase.listener.OnItemClickListener;
 
 /**
  * Created by acnovn on 10/26/16.
  */
 
-public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdapter.PlayListItemsViewHolder> {
+public class PlayListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<PlayListItemEntity> list;
     private Context mContext;
     int dpi;
     private OnItemClickListener listener;
     private boolean isSelect = false;
     private int indexSelect = 0;
-    List<HistoryTable> historyTablesList;
+    private List<HistoryTable> historyTablesList;
+    private final int TYPE_DATA = 0;
+    private final int TYPE_LOAD = 1;
+    private LoadMoreListener listenerLoadMore;
+
+    public void setLoadMoreListener(LoadMoreListener listener) {
+        this.listenerLoadMore = listener;
+    }
 
     public PlayListItemsAdapter(List<PlayListItemEntity> lst, Context context, OnItemClickListener itemClickListener) {
         list = lst;
         mContext = context;
         listener = itemClickListener;
         historyTablesList = YouTubeAppManager.getHistory();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (list.get(position) != null){
+            return TYPE_DATA;
+        } else {
+            return TYPE_LOAD;
+        }
     }
 
     private boolean checkWatch(String videoId) {
@@ -52,11 +69,13 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
     }
 
     @Override
-    public PlayListItemsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_playlist_items, parent, false);
-
-        return new PlayListItemsViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType==TYPE_DATA){
+            return new PlayListItemsViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_playlist_items, parent, false));
+        }else{
+            return new LoadHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_load_more,parent,false));
+        }
     }
 
     public void setSelect(boolean select) {
@@ -68,55 +87,13 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
     }
 
     @Override
-    public void onBindViewHolder(final PlayListItemsViewHolder holder, int position) {
-        PlayListItemEntity obj = list.get(position);
-        holder.tv_title.setText(obj.snippet.title);
-        if (checkWatch(obj.contentDetails.videoId)) {
-            holder.watched.setVisibility(View.VISIBLE);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == TYPE_DATA){
+            ((PlayListItemsViewHolder)holder).bindData(position);
         } else {
-            holder.watched.setVisibility(View.INVISIBLE);
-        }
-        String url = "";
-        try {
-            if (!TextUtils.isEmpty(obj.snippet.thumbnails.maxres.url)) {
-                url = obj.snippet.thumbnails.maxres.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.standard.url)) {
-                url = obj.snippet.thumbnails.standard.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.high.url)) {
-                url = obj.snippet.thumbnails.high.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.medium.url)) {
-                url = obj.snippet.thumbnails.medium.url;
-            } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.default_url.url)) {
-                url = obj.snippet.thumbnails.default_url.url;
+            if (listenerLoadMore!=null){
+                listenerLoadMore.onLoadMore();
             }
-        } catch (Exception e) {
-            url = "";
-        }
-
-        Glide.with(mContext)
-                .load(url)
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.placeholder_error)
-                .skipMemoryCache(false)
-                .dontAnimate()
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        holder.iv_play.setVisibility(View.GONE);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        holder.iv_play.setVisibility(View.VISIBLE);
-                        return false;
-                    }
-                })
-                .into(holder.iv_Thumbnails);
-        if (isSelect && position == indexSelect) {
-            holder.ln_item.setSelected(true);
-        } else {
-            holder.ln_item.setSelected(false);
         }
     }
 
@@ -156,6 +133,57 @@ public class PlayListItemsAdapter extends RecyclerView.Adapter<PlayListItemsAdap
                     }
                 }
             });
+        }
+        public void bindData(int position ){
+            PlayListItemEntity obj = list.get(position);
+            tv_title.setText(obj.snippet.title);
+            if (checkWatch(obj.contentDetails.videoId)) {
+                watched.setVisibility(View.VISIBLE);
+            } else {
+                watched.setVisibility(View.INVISIBLE);
+            }
+            String url = "";
+            try {
+                if (!TextUtils.isEmpty(obj.snippet.thumbnails.maxres.url)) {
+                    url = obj.snippet.thumbnails.maxres.url;
+                } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.standard.url)) {
+                    url = obj.snippet.thumbnails.standard.url;
+                } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.high.url)) {
+                    url = obj.snippet.thumbnails.high.url;
+                } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.medium.url)) {
+                    url = obj.snippet.thumbnails.medium.url;
+                } else if (!TextUtils.isEmpty(obj.snippet.thumbnails.default_url.url)) {
+                    url = obj.snippet.thumbnails.default_url.url;
+                }
+            } catch (Exception e) {
+                url = "";
+            }
+
+            Glide.with(mContext)
+                    .load(url)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder_error)
+                    .skipMemoryCache(false)
+                    .dontAnimate()
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            iv_play.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            iv_play.setVisibility(View.VISIBLE);
+                            return false;
+                        }
+                    })
+                    .into(iv_Thumbnails);
+            if (isSelect && position == indexSelect) {
+                ln_item.setSelected(true);
+            } else {
+                ln_item.setSelected(false);
+            }
         }
     }
 }

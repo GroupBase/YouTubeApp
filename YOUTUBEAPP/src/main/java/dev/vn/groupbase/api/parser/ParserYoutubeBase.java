@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dev.vn.groupbase.api.entity.PageInfoEntity;
 import dev.vn.groupbase.common.DebugLog;
 
 /**
@@ -11,6 +12,9 @@ import dev.vn.groupbase.common.DebugLog;
  */
 
 public abstract class ParserYoutubeBase {
+    public static String prevPageToken;
+    public static String nextPageToken;
+    public static PageInfoEntity pageInfo;
     public static <T> T getValue(JSONObject jsonObject, String valueName, Class<T> object) throws JSONException {
         if (jsonObject.has(valueName)) {
             return object.cast(jsonObject.get(valueName));
@@ -32,7 +36,28 @@ public abstract class ParserYoutubeBase {
         }
         return null;
     }
-
+    public static String getNextPageToken(JSONObject jsonObject)throws JSONException{
+        if (jsonObject.has("nextPageToken")){
+            return jsonObject.getString("nextPageToken");
+        }
+        return null;
+    }
+    public static String getPrevPageToken(JSONObject jsonObject)throws JSONException{
+        if (jsonObject.has("prevPageToken")){
+            return jsonObject.getString("prevPageToken");
+        }
+        return null;
+    }
+    public static PageInfoEntity getPageInfo(JSONObject jsonObject)throws JSONException{
+        if (jsonObject.has("pageInfo")){
+            PageInfoEntity pageInfoEntity = new PageInfoEntity();
+            JSONObject object = jsonObject.getJSONObject("pageInfo");
+            pageInfoEntity.totalResults = object.has("totalResults")?object.getInt("totalResults"):0;
+            pageInfoEntity.resultsPerPage = object.has("resultsPerPage")?object.getInt("resultsPerPage"):0;
+            return pageInfoEntity;
+        }
+        return null;
+    }
     public static JSONArray getItems(JSONObject jsonObject) throws JSONException {
         if (jsonObject.has("items")) {
             return jsonObject.getJSONArray("items");
