@@ -2,11 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_main"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <Button
-        android:text="next"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_next" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/thank_you"
+        android:textSize="@dimen/text_size_36"
+        android:textColor="@color/text_white"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:text="@string/infor"
+        android:padding="@dimen/margin_10"
+        android:textSize="@dimen/text_size_16"
+        android:textColor="@color/text_black" />
+<ImageView
+    android:id="@+id/iv_next"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:src="@drawable/next"/>
 </LinearLayout>

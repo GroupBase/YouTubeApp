@@ -9,4 +9,9 @@
     <string name="error">Đã có vấn đề xảy ra trên đường truyền.\n Vui lòng kiểm tra lại kết nối Internet </string>
     <string name="close_app">Đóng ứng dụng</string>
     <string name="reload_data">Nạp lại dữ liệu</string>
+    <string name="infor">Điều đầu tiên nhóm phát triễn ứng  xin gửi lời cảm ơn tới người sử dụng đã sử dụng ứng dụng của chúng tôi.
+    Để đáp ứng nhu cầu xem video giải trí của người dùng chúng tôi xin ra mắt ứng dụng %1s trên thiết bị di động.
+    Hiện tại trong ứng dụng có tích hợp chương trình Quảng cáo , Vì vậy chúng tôi xin lỗi vì sự bất tiện này.Một lần nữa
+    chúng tôi xin cảm ơn người dùng đã sử dụng ứng dụng này.</string>
+    <string name="thank_you">Lời cảm ơn</string>
 </resources>

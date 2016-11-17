@@ -34,7 +34,6 @@ public class MainActivity extends ActivityCommon {
 
     @Override
     public void onBackPressed() {
-        StartAppAd.onBackPressed(this);
         super.onBackPressed();
     }
 }

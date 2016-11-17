@@ -146,6 +146,9 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
     @Override
     public void onRequestStreamStart() {
         ProgressLoading.show();
+        if (videoFragment.isAd()){
+            videoFragment.loadAd();
+        }
     }
 
     @Override
@@ -196,6 +199,21 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
             checkBookMark(bookMarkTable.videoId, bookMarkTable.playListId);
         }
     }
+
+    @Override
+    public void onLoadAdFinish() {
+        if (!videoFragment.isStream()){
+            ProgressLoading.show();
+        } else {
+            ProgressLoading.dismiss();
+        }
+    }
+
+    @Override
+    public void onLoadAdStart() {
+
+    }
+
     public  void setLayoutSize(View view, int width, int height) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.width = width;
@@ -220,8 +238,6 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
             VideoEntity obj = data;
             tv_title.setText(obj.snippet.title);
             bookMarkTable.videoName = obj.snippet.title;
-
-//            tv_description.setText(obj.snippet.description);
             Pattern pattern = Pattern.compile(URL_REGEX);
             final Matcher matcher = pattern.matcher(obj.snippet.description);
             Spannable spannable = new SpannableString(obj.snippet.description);

@@ -159,6 +159,7 @@ public class BookMarkAdapter extends BaseExpandableListAdapter {
                 bundle.putString("url_img",url);
                 bundle.putString("title",obj.videoName);
                 bundle.putSerializable("bookmark",obj);
+                bundle.putBoolean("load_ad",true);
                 Intent intent = new Intent(mContext, VideoPlayActivity.class);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);

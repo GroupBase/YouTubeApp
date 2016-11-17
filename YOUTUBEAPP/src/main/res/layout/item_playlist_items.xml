@@ -14,6 +14,7 @@
 
         <ImageView
             android:id="@+id/iv_thumbnails"
+            android:background="@color/black"
             android:layout_width="@dimen/view_100"
             android:layout_height="@dimen/view_100"
             tools:ignore="ContentDescription" />
@@ -34,7 +35,8 @@
             android:gravity="top|left"
             android:layout_marginTop="@dimen/margin_5"
             android:textSize="@dimen/text_size_18"
-            android:textColor="@android:color/holo_red_light"/>
+            android:textStyle="bold"
+            android:textColor="@color/text_count_color"/>
     </FrameLayout>
     <TextView
         android:id="@+id/tv_title"
@@ -43,7 +45,8 @@
         android:layout_gravity="center_vertical"
         android:maxLines="3"
         android:text="TextView"
-        android:textColor="@color/text_white"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:textColor="@color/text_title_color"
         android:textSize="@dimen/text_size"
         tools:text="title\ntitla\n" />
 </LinearLayout>

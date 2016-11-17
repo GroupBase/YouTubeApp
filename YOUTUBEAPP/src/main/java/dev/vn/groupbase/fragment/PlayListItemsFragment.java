@@ -56,6 +56,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     public String titlePlayList;
     private ImageView iv_bookMark;
     private BookMarkTable bookMarkTable;
+    private int clickCount =0;
     private View.OnLayoutChangeListener listener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -225,7 +226,13 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
         }
         if (!TextUtils.isEmpty(videoId)) {
             videoFragment.loadVideo(videoId, url);
-
+            int showAd = clickCount%3;
+            DebugLog.showToast(showAd+"");
+            if (videoFragment.isAd() &&(showAd ==0 || showAd ==3)){
+                ProgressLoading.dismiss();
+                videoFragment.loadAd();
+            }
+            clickCount ++;
         }
         HistoryTable historyTable = new HistoryTable();
         historyTable.videoId = videoId;
@@ -310,6 +317,20 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
         if (bookMarkTable != null) {
             checkBookMark(bookMarkTable.videoId, bookMarkTable.playListId);
         }
+    }
+
+    @Override
+    public void onLoadAdFinish() {
+        if (!videoFragment.isStream()){
+            ProgressLoading.show();
+        } else {
+            ProgressLoading.dismiss();
+        }
+    }
+
+    @Override
+    public void onLoadAdStart() {
+
     }
 
     @Override

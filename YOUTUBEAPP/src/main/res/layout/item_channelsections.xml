@@ -14,7 +14,7 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:textColor="@color/text_white"
-        android:background="@color/background_channelsection"
+        android:background="@drawable/button_corner_channel"
         android:gravity="center"
         android:textSize="@dimen/text_size_18"
         android:layout_height="@dimen/view_100" />

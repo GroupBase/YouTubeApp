@@ -10,4 +10,6 @@ public interface StreamVideoListener {
     void onRequestStreamFinish();
     void onFullScreen();
     void onExitFullScreen();
+    void onLoadAdFinish();
+    void onLoadAdStart();
 }

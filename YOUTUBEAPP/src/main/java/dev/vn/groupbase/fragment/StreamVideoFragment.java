@@ -1,8 +1,10 @@
 package dev.vn.groupbase.fragment;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
@@ -24,6 +26,7 @@ import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 
+import dev.vn.groupbase.common.ProgressLoading;
 import dev.vn.groupbase.listener.StreamVideoListener;
 import dev.vn.groupbase.model.StreamVideoModel;
 import dev.vn.groupbase.model.callback.ModelCallBackStreamVideo;
@@ -36,7 +39,7 @@ import vn.amobi.util.ads.video.AmobiVideoAdListener;
  * Created by acnovn on 11/9/16.
  */
 
-public class StreamVideoFragment extends FragmentCommon implements View.OnClickListener, ModelCallBackStreamVideo, MediaController.MediaPlayerControl, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener ,AmobiVideoAdListener {
+public class StreamVideoFragment extends FragmentCommon implements View.OnClickListener, ModelCallBackStreamVideo, MediaController.MediaPlayerControl, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener ,AmobiVideoAdListener,SurfaceHolder.Callback {
     private static String TAG = "StreamVideoFragment";
     private SurfaceView videoView;
     private MediaPlayer mp;
@@ -49,7 +52,9 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     private StreamVideoListener mStreamVideoListener;
     private boolean isPlay = false;
     private String mVideoUri;
-
+    private boolean loadAd = false;
+    private boolean isHavaStream = false;
+    private boolean stopAd = false;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_stream_video;
@@ -67,37 +72,8 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
             holder = mFirstSurface;
         }
         videoView.setOnClickListener(this);
-        mp = new MediaPlayer();
-        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        holder.addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                DebugLog.log_e(TAG, "surfaceCreated");
-                if (mVideoUri != null) {
-                    mp.setDisplay(mFirstSurface);
-                } else {
-                    mp.setDisplay(holder);
-                    mFirstSurface = holder;
-                }
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-                DebugLog.log_e(TAG, "surfaceChanged");
-            }
-
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-                DebugLog.log_e(TAG, "surfaceDestroyed");
-                if (isPlay){
-                    mp.pause();
-                    isPlay = false;
-                }
-            }
-        });
-        mp.setOnPreparedListener(this);
-        mp.setOnErrorListener(this);
-        mp.setOnCompletionListener(this);
+        initPlay();
+        holder.addCallback(this);
         mController = new MediaController(mContext);
         final ImageView fullScreenButton = new ImageView(mContext);
         fullScreenButton.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +102,18 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
         mController.setEnabled(true);
     }
 
+    private void initPlay(){
+        mp = new MediaPlayer();
+        mp.setScreenOnWhilePlaying(true);
+        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mp.setOnPreparedListener(this);
+        mp.setOnErrorListener(this);
+        mp.setOnCompletionListener(this);
+        if (mController!=null){
+            mController.setMediaPlayer(StreamVideoFragment.this);
+        }
+
+    }
     @Override
     protected ModelCommon initModel() {
         if (mModel == null) {
@@ -151,7 +139,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
 
     public void loadVideo(String videoId, String thumbnails) {
         url_thumbnail = thumbnails;
-
+        isHavaStream = false;
         mStreamVideoListener.onRequestStreamStart();
         if (isPlay) {
             mp.pause();
@@ -178,8 +166,16 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
 
     @Override
     public void onData(String data) {
+        isHavaStream = true;
         String url_Stream = data.toString();
         mVideoUri = url_Stream;
+        play(mVideoUri);
+
+    }
+    private void play(String url_Stream){
+        if (mp == null) {
+            return;
+        }
         try {
             mp.reset();
             mp.setDataSource(mContext, Uri.parse(url_Stream));
@@ -210,7 +206,6 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
         if (isPlay) {
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             mp.pause();
-            isPlay = false;
         }
     }
 
@@ -324,6 +319,20 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     public void onResume() {
         super.onResume();
         DebugLog.log_e(TAG, "onResume");
+        if (!TextUtils.isEmpty(mVideoUri)&& !isPlay){
+            Glide.with(mContext).load(url_thumbnail)
+                    .skipMemoryCache(false)
+                    .into(thumbnail);
+            thumbnail.setVisibility(View.VISIBLE);
+            ProgressLoading.show();
+            if (!isPlay) {
+                if (mp == null) {
+                    initPlay();
+                }
+                play(mVideoUri);
+            }
+
+        }
     }
 
     @Override
@@ -333,21 +342,86 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
 
     @Override
     public void onAdAvailable() {
-        AmobiVideoAd.getInstance().showAd(new AmobiShowVideoAdRequest());
+        DebugLog.showToast("onAdAvailable");
+        loadAd = true;
+        Intent intent = getActivity().getIntent();
+        if (intent!=null) {
+            if (intent.getExtras().getBoolean("load_ad", false)) {
+                loadAd();
+                stopAd = true;
+            }
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isPlay){
+            mp.pause();
+        }else {
+            if (mp != null) {
+                mp.release();
+                mp = null;
+            }
+        }
     }
 
     @Override
     public void onPrepareError() {
-        DebugLog.showToast( "Load ad error");
+        loadAd = false;
+        DebugLog.showToast("onPrepareError");
     }
 
     @Override
     public void onAdStarted() {
-        mp.pause();
+        mStreamVideoListener.onLoadAdStart();
     }
 
     @Override
     public void onAdFinished() {
-        mp.start();
+        mStreamVideoListener.onLoadAdFinish();
+        loadAd = false;
+        Intent intent = getActivity().getIntent();
+        if (!stopAd) {
+            AmobiVideoAd.getInstance().prepare(getActivity());
+        }
+    }
+    public void loadAd(){
+        AmobiVideoAd.getInstance().showAd(new AmobiShowVideoAdRequest());
+    }
+    public boolean isAd(){
+        return loadAd;
+    }
+    public boolean isStream(){
+        return isHavaStream;
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        DebugLog.log_e(TAG, "surfaceCreated");
+        mFirstSurface = holder;
+        if (mp!=null){
+            mp.setDisplay(mFirstSurface);
+        }
+//        if (mVideoUri != null) {
+//            mp.setDisplay(mFirstSurface);
+//        } else {
+//            mp.setDisplay(holder);
+//
+//        }
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        DebugLog.log_e(TAG, "surfaceChanged");
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        DebugLog.log_e(TAG, "surfaceDestroyed");
+//        if (isPlay){
+//            mp.pause();
+//            isPlay = false;
+//        }
     }
 }

@@ -20,7 +20,7 @@ public class AboutFragment extends FragmentCommon {
 
     @Override
     protected void initView() {
-        findViewById(R.id.btn_next).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PreferenceManager.newInstance().setShowAbout(true);

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--<shape xmlns:android="http://schemas.android.com/apk/res/android" >--><!--<solid android:color="@color/menu_select" />--><!--<padding--><!--android:left="10dp"--><!--android:right="10dp"--><!--android:top="20dp"--><!--android:bottom="20dp"/>--><!--<corners android:radius="5dp" />--><!--</shape>-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/sections_color" />
+            <padding android:bottom="20dp" android:left="10dp" android:right="10dp" android:top="20dp" />
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/sections_color_select" />
+            <padding android:bottom="20dp" android:left="10dp" android:right="10dp" android:top="20dp" />
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+</selector>

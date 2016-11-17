@@ -16,6 +16,7 @@
             android:id="@+id/iv_thumbnails"
             android:layout_width="@dimen/view_100"
             android:layout_height="@dimen/view_100"
+            android:background="@color/black"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -32,8 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:maxLines="3"
+        android:layout_marginLeft="@dimen/margin_10"
         android:text="TextView"
-        android:textColor="@color/text_white"
+        android:textColor="@color/text_title_color"
         android:textSize="@dimen/text_size"
         tools:text="title\ntitla\n" />
 </LinearLayout>
