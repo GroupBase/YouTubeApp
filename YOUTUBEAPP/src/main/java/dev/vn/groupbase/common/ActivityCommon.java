@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import app.thn.groupbase.youtubeapp.R;
+import app.thn.groupbase.gameshow.R;
 import gmo.hcm.net.lib.NetworkUtil;
 
 

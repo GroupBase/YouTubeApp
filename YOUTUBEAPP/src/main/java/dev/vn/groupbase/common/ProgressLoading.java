@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 
-import app.thn.groupbase.youtubeapp.R;
+import app.thn.groupbase.gameshow.R;
 
 
 /**

@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">YouTubeApp</string>
+    <string name="app_name">Trò chơi truyền hình</string>
     <string name="channel_key">UCxoVze8NvPpCih28VgCRl0A</string>
-    <string name="start_app_id">210374994</string>
-    <string name="admod_id">ca-app-pub-7151179480091917/9018343780</string>
+    <string name="start_app_id">210605839</string>
+    <string name="admod_id">ca-app-pub-6297704753603536/6772383602</string>
     <string name="amobi_id">d49a00e86ceff414af831c6cc2eee9a3</string>
     <string name="init_data">Đang nạp dữ liệu ...</string>
     <string name="watched">Đã xem</string>
@@ -10,7 +10,7 @@
     <string name="close_app">Đóng ứng dụng</string>
     <string name="reload_data">Nạp lại dữ liệu</string>
     <string name="infor">Điều đầu tiên nhóm phát triễn ứng  xin gửi lời cảm ơn tới người sử dụng đã sử dụng ứng dụng của chúng tôi.
-    Để đáp ứng nhu cầu xem video giải trí của người dùng chúng tôi xin ra mắt ứng dụng %1s trên thiết bị di động.
+    Để đáp ứng nhu cầu xem video giải trí của người dùng chúng tôi xin ra mắt ứng dụng xem video với tên gọi là : %1s trên thiết bị di động.
     Hiện tại trong ứng dụng có tích hợp chương trình Quảng cáo , Vì vậy chúng tôi xin lỗi vì sự bất tiện này.Một lần nữa
     chúng tôi xin cảm ơn người dùng đã sử dụng ứng dụng này.</string>
     <string name="thank_you">Lời cảm ơn</string>

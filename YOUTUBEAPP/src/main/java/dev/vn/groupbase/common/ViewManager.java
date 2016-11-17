@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import java.util.List;
 
-import app.thn.groupbase.youtubeapp.R;
+import app.thn.groupbase.gameshow.R;
 
 
 /**

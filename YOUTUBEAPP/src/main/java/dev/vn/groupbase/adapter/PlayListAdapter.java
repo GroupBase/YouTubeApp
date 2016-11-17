@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import app.thn.groupbase.youtubeapp.R;
+import app.thn.groupbase.gameshow.R;
 import dev.vn.groupbase.api.entity.PlayListEntity;
 import dev.vn.groupbase.listener.OnItemClickListener;
 

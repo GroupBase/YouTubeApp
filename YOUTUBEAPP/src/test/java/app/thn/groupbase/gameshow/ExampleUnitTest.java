@@ -1,4 +1,4 @@
-package app.thn.groupbase.youtubeapp;
+package app.thn.groupbase.gameshow;
 
 import org.junit.Test;
 

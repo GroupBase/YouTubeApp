@@ -18,7 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.thn.groupbase.youtubeapp.R;
+import app.thn.groupbase.gameshow.R;
 import dev.vn.groupbase.adapter.PlayListItemsAdapter;
 import dev.vn.groupbase.api.entity.PlayListItemEntity;
 import dev.vn.groupbase.common.DebugLog;

@@ -2,7 +2,7 @@ package dev.vn.groupbase.common;
 
 import android.widget.Toast;
 
-import app.thn.groupbase.youtubeapp.BuildConfig;
+import app.thn.groupbase.gameshow.BuildConfig;
 
 
 /**
