@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.activity.BaseActivity;
 import dev.vn.groupbase.listener.LoadMoreListener;
 

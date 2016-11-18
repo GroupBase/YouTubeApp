@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import java.io.IOException;
 
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;

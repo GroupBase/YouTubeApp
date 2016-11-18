@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.activity.VideoPlayActivity;
 import dev.vn.groupbase.database.BookMarkTable;
 

@@ -16,7 +16,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.activity.PlayListItemsActivity;
 import dev.vn.groupbase.adapter.PlayListAdapter;
 import dev.vn.groupbase.api.entity.PlayListEntity;

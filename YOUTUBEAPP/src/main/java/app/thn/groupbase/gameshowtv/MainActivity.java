@@ -1,4 +1,4 @@
-package app.thn.groupbase.gameshow;
+package app.thn.groupbase.gameshowtv;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,11 +6,10 @@ import android.support.annotation.Nullable;
 import com.startapp.android.publish.StartAppAd;
 import com.startapp.android.publish.StartAppSDK;
 
-import dev.vn.groupbase.PreferenceManager;
 import dev.vn.groupbase.common.ActivityCommon;
 import dev.vn.groupbase.common.ViewManager;
 import dev.vn.groupbase.fragment.AboutFragment;
-import dev.vn.groupbase.fragment.SplashFragment;
+
 
 public class MainActivity extends ActivityCommon {
 

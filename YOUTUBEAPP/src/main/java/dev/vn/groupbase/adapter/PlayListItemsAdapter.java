@@ -16,7 +16,7 @@ import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.api.entity.PlayListItemEntity;
 import dev.vn.groupbase.database.HistoryTable;
 import dev.vn.groupbase.database.YouTubeAppManager;

@@ -9,7 +9,7 @@ import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.api.ChannelSectionsApi;
 import dev.vn.groupbase.api.entity.ChannelSectionEntity;
 import dev.vn.groupbase.api.parser.ChannelSectionParser;

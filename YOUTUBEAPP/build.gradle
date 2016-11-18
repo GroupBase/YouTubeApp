@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "app.thn.groupbase.gameshow"
+        applicationId "app.thn.groupbase.gameshowtv"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1

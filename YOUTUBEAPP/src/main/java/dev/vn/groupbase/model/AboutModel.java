@@ -2,7 +2,7 @@ package dev.vn.groupbase.model;
 
 import java.util.List;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.api.CheckAppApi;
 import dev.vn.groupbase.api.entity.YouTubeEntity;
 import dev.vn.groupbase.api.parser.YouTubeParse;

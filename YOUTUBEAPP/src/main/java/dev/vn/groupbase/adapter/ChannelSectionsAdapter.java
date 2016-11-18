@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.database.ChannelSectionsTable;
 import dev.vn.groupbase.listener.OnItemClickListener;
 

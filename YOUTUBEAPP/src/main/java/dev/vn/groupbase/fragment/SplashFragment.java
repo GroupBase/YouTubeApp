@@ -3,7 +3,7 @@ package dev.vn.groupbase.fragment;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.activity.BaseActivity;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;

@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.PreferenceManager;
 import dev.vn.groupbase.api.entity.YouTubeEntity;
 import dev.vn.groupbase.common.FragmentCommon;

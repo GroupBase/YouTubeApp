@@ -6,7 +6,7 @@ import android.widget.ExpandableListView;
 
 import java.util.List;
 
-import app.thn.groupbase.gameshow.R;
+import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.adapter.HistoryAdapter;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
