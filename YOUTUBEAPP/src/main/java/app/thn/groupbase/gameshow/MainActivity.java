@@ -24,11 +24,7 @@ public class MainActivity extends ActivityCommon {
     @Override
     protected void onCreateExecute(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            if (PreferenceManager.newInstance().isShowAbout()) {
-                ViewManager.getInstance().addFragment(SplashFragment.newInstance(null, SplashFragment.class), false);
-            } else {
-                ViewManager.getInstance().addFragment(AboutFragment.newInstance(null, AboutFragment.class), false);
-            }
+            ViewManager.getInstance().addFragment(AboutFragment.newInstance(null, AboutFragment.class), false);
         }
     }
 

@@ -1,19 +1,28 @@
 package dev.vn.groupbase.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
 import app.thn.groupbase.gameshow.R;
 import dev.vn.groupbase.PreferenceManager;
+import dev.vn.groupbase.api.entity.YouTubeEntity;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 import dev.vn.groupbase.common.ViewManager;
+import dev.vn.groupbase.model.AboutModel;
+import dev.vn.groupbase.model.callback.ModelCallBackAbout;
+import gmo.hcm.net.lib.RequestError;
 
 /**
  * Created by nghiath on 11/16/16.
  */
 
-public class AboutFragment extends FragmentCommon {
+public class AboutFragment extends FragmentCommon implements ModelCallBackAbout{
+    private AboutModel mModel;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_about;
@@ -24,8 +33,7 @@ public class AboutFragment extends FragmentCommon {
         findViewById(R.id.iv_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.newInstance().setShowAbout(true);
-                ViewManager.getInstance().addFragment(SplashFragment.newInstance(null, SplashFragment.class), false);
+                mModel.checkApp();
             }
         });
         TextView infor = (TextView)findViewById(R.id.tv_info);
@@ -34,6 +42,42 @@ public class AboutFragment extends FragmentCommon {
 
     @Override
     protected ModelCommon initModel() {
-        return null;
+        if (mModel == null){
+            mModel= new AboutModel(this);
+        }
+        return mModel;
+    }
+
+    @Override
+    public void onData(YouTubeEntity data) {
+        if (data.status == 0){
+            getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mContext.getString(R.string.channel_address))));
+            ViewManager.getInstance().closeApplication();
+        } else if (data.status == 1){
+            ViewManager.getInstance().addFragment(SplashFragment.newInstance(null, SplashFragment.class), false);
+        } else {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+            dialog.setTitle(mContext.getString(R.string.dialog_title));
+            dialog.setMessage(mContext.getString(R.string.dialog_message));
+            dialog.setCancelable(false);
+            dialog.setPositiveButton(mContext.getString(R.string.close), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                    ViewManager.getInstance().closeApplication();
+                }
+            });
+            dialog.create();
+            dialog.show();
+        }
+    }
+
+    @Override
+    public void onError(RequestError error_type) {
+        switch (error_type){
+            case NETWORK:
+            case NETWORK_LOST:
+                onShowError();
+                break;
+        }
     }
 }

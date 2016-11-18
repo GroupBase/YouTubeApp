@@ -259,7 +259,8 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
     public void onError(RequestError error_type) {
         switch (error_type){
             case NETWORK:
-                ((BaseActivity)ViewManager.getInstance().getActivity()).showErrorView();
+            case NETWORK_LOST:
+                onShowError();
                 break;
         }
     }

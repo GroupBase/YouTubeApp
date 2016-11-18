@@ -12,4 +12,5 @@ public class YoutubeConstant {
     public static String PLAY_LIST_ITEMS = String.format("%1splaylistItems", DOMAIN);
     public static String VIDEOS = String.format("%1svideos", DOMAIN);
     public static String SEARCH = String.format("%1ssearch", DOMAIN);
+    public static String CHECK_APP = "https://youtubeapp-149902.appspot.com/api/appstore";
 }
