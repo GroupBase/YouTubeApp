@@ -2,8 +2,6 @@ package dev.vn.groupbase.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import dev.vn.groupbase.common.ActivityCommon;
 import dev.vn.groupbase.common.ViewManager;
 import dev.vn.groupbase.fragment.PlayListItemsFragment;
 
@@ -12,6 +10,7 @@ import dev.vn.groupbase.fragment.PlayListItemsFragment;
  */
 
 public class PlayListItemsActivity extends BaseActivity {
+
     @Override
     protected void onCreateExecute(Bundle savedInstanceState) {
         if (savedInstanceState == null){
@@ -21,4 +20,5 @@ public class PlayListItemsActivity extends BaseActivity {
             ViewManager.getInstance().addFragment(PlayListItemsFragment.newInstance(bundle,PlayListItemsFragment.class),false);
         }
     }
+
 }

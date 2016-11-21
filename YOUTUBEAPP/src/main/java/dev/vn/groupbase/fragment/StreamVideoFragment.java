@@ -141,10 +141,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
         url_thumbnail = thumbnails;
         isHavaStream = false;
         mStreamVideoListener.onRequestStreamStart();
-        if (isPlay) {
-            mp.pause();
-            isPlay = false;
-        }
+        isPlay = false;
         mp.reset();
         mModel.requestStream(videoId);
     }
@@ -179,7 +176,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
         try {
             mp.reset();
             mp.setDataSource(mContext, Uri.parse(url_Stream));
-            mp.prepare();
+            mp.prepareAsync();
             DebugLog.log_e(TAG, "prepare_OK");
         } catch (IllegalArgumentException e) {
             DebugLog.log_e(TAG, "prepare_error1");
@@ -204,6 +201,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void pause() {
         if (isPlay) {
+            isPlay = false;
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             mp.pause();
         }
@@ -286,10 +284,11 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        DebugLog.log_e(TAG, "setOnErrorListener");
+        DebugLog.log_e(TAG, "onError");
         mStreamVideoListener.onRequestStreamError();
-        mp.stop();
-        mp.release();
+        if (mController!=null){
+            mController.setMediaPlayer(StreamVideoFragment.this);
+        }
         return false;
     }
 
@@ -307,31 +306,17 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mp != null) {
-            mp.stop();
-            mp.release();
-            mp = null;
-            DebugLog.log_e(TAG, "onDestroy");
-        }
+        DebugLog.log_e(TAG, "onDestroy");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         DebugLog.log_e(TAG, "onResume");
-        if (!TextUtils.isEmpty(mVideoUri)&& !isPlay){
-            Glide.with(mContext).load(url_thumbnail)
-                    .skipMemoryCache(false)
-                    .into(thumbnail);
-            thumbnail.setVisibility(View.VISIBLE);
-            ProgressLoading.show();
-            if (!isPlay) {
-                if (mp == null) {
-                    initPlay();
-                }
-                play(mVideoUri);
+        if (!TextUtils.isEmpty(mVideoUri)){
+            if (isPlay) {
+                mp.start();
             }
-
         }
     }
 
@@ -356,14 +341,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void onStop() {
         super.onStop();
-        if (isPlay){
-            mp.pause();
-        }else {
-            if (mp != null) {
-                mp.release();
-                mp = null;
-            }
-        }
+
     }
 
     @Override
@@ -399,16 +377,13 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         DebugLog.log_e(TAG, "surfaceCreated");
-        mFirstSurface = holder;
-        if (mp!=null){
+
+        if (mp!=null && mFirstSurface!=null){
             mp.setDisplay(mFirstSurface);
+        } else {
+            mp.setDisplay(holder);
         }
-//        if (mVideoUri != null) {
-//            mp.setDisplay(mFirstSurface);
-//        } else {
-//            mp.setDisplay(holder);
-//
-//        }
+        mFirstSurface = holder;
     }
 
     @Override
@@ -419,9 +394,27 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         DebugLog.log_e(TAG, "surfaceDestroyed");
-//        if (isPlay){
-//            mp.pause();
-//            isPlay = false;
-//        }
+        if (isPlay){
+            mp.pause();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (isPlay){
+            mp.pause();
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        synchronized (mp) {
+            if (mp != null) {
+                mp.release();
+                mp = null;
+            }
+        }
     }
 }

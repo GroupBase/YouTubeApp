@@ -63,7 +63,7 @@ public class PlayListFragment extends FragmentCommon implements ModelCallBackPla
         requestNewInterstitial();
     }
     private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("73C26E9772F06EC5DBD172AFB699FFC8").build();
         mInterstitialAd.loadAd(adRequest);
     }
     @Override

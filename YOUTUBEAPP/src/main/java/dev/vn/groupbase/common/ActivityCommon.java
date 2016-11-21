@@ -68,8 +68,8 @@ public abstract class ActivityCommon extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
         ViewManager.getInstance().stopActivity();
+        super.onStop();
     }
 
     @Override

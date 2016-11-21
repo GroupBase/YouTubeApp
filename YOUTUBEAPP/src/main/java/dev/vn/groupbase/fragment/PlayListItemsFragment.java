@@ -1,6 +1,7 @@
 package dev.vn.groupbase.fragment;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.thn.groupbase.gameshowtv.R;
+import dev.vn.groupbase.activity.PlayListItemsActivity;
 import dev.vn.groupbase.adapter.PlayListItemsAdapter;
 import dev.vn.groupbase.api.entity.PlayListItemEntity;
 import dev.vn.groupbase.common.DebugLog;
@@ -57,9 +59,11 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     private ImageView iv_bookMark;
     private BookMarkTable bookMarkTable;
     private int clickCount =0;
+    private View main_view;
+    private boolean isFullScreen = false;
     private View.OnLayoutChangeListener listener = new View.OnLayoutChangeListener() {
         @Override
-        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        public void onLayoutChange(final View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
 
             videoBox.removeOnLayoutChangeListener(listener);
             recyclerView.animate().setListener(new Animator.AnimatorListener() {
@@ -71,6 +75,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     recyclerView.animate().setListener(null);
+                    setLayoutSize(recyclerView, MATCH_PARENT, recyclerView.getHeight()-v.getHeight());
                     ProgressLoading.dismiss();
                 }
 
@@ -84,6 +89,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
                 }
             }).translationY(v.getHeight()).setDuration(700);
+
 
         }
     };
@@ -109,6 +115,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
                 }
             }
         });
+        main_view = findViewById(R.id.main_view);
 
     }
 
@@ -147,6 +154,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
             @Override
             public void onClick(View v) {
                 iv_bookMark.setVisibility(View.GONE);
+                setLayoutSize(recyclerView, MATCH_PARENT,MATCH_PARENT);
                 bookMarkTable = null;
                 recyclerView.animate().setListener(new Animator.AnimatorListener() {
                     @Override
@@ -292,6 +300,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
     @Override
     public void onFullScreen() {
+        isFullScreen = true;
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         hideToolBar();
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -305,13 +314,13 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
     @Override
     public void onExitFullScreen() {
+        isFullScreen =false;
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         showToolBar();
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         recyclerView.setVisibility(View.VISIBLE);
         close_button.setVisibility(View.VISIBLE);
         videoFragment.setFullScreen(false);
-        setLayoutSize(recyclerView, MATCH_PARENT, MATCH_PARENT);
         setLayoutSizeAndGravity(videoBox, MATCH_PARENT, WRAP_CONTENT, Gravity.TOP);
         setLayoutSize(videoFragment.getView(), MATCH_PARENT, WRAP_CONTENT);
         if (bookMarkTable != null) {
@@ -354,5 +363,14 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     @Override
     public void onReload() {
         mModel.requestPlayList();
+    }
+
+    @Override
+    public void onBackPress() {
+        if(isFullScreen){
+            onExitFullScreen();
+        } else {
+            super.onBackPress();
+        }
     }
 }
