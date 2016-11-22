@@ -26,7 +26,6 @@ import dev.vn.groupbase.common.DebugLog;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
 
-import dev.vn.groupbase.common.ProgressLoading;
 import dev.vn.groupbase.listener.StreamVideoListener;
 import dev.vn.groupbase.model.StreamVideoModel;
 import dev.vn.groupbase.model.callback.ModelCallBackStreamVideo;
@@ -164,7 +163,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void onData(String data, boolean isBrowser) {
         if (isBrowser){
-            mStreamVideoListener.onRequestStreamError();
+            mStreamVideoListener.onRequestStreamError(RequestError.DATA_ERROR);
             getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data)));
         } else {
             isHavaStream = true;
@@ -258,11 +257,12 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     }
 
     private void setVideoSize() {
+
         // // Get the dimensions of the video
         int videoWidth = mp.getVideoWidth();
         int videoHeight = mp.getVideoHeight();
         float videoProportion = (float) videoWidth / (float) videoHeight;
-
+        DebugLog.log_e(TAG, "setVideoSize"+videoWidth+":"+videoHeight);
         // Get the width of the screen
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -290,7 +290,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         DebugLog.log_e(TAG, "onError");
-        mStreamVideoListener.onRequestStreamError();
+        mStreamVideoListener.onRequestStreamError(RequestError.DATA_ERROR);
         if (mController!=null){
             mController.setMediaPlayer(StreamVideoFragment.this);
         }
@@ -327,7 +327,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
 
     @Override
     public void onError(RequestError error_type) {
-        mStreamVideoListener.onRequestStreamError();
+        mStreamVideoListener.onRequestStreamError(error_type);
     }
 
     @Override
@@ -394,6 +394,10 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         DebugLog.log_e(TAG, "surfaceChanged");
+//        setVideoSize();
+//        if (mStreamVideoListener!=null) {
+//            mStreamVideoListener.onRequestStreamFinish();
+//        }
     }
 
     @Override

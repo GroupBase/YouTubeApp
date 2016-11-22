@@ -40,11 +40,17 @@ public class AboutModel extends ModelCommon {
             public void onFinish(Object result, boolean endRequest) {
                 ProgressLoading.dismiss();
                 List<YouTubeEntity> list = YouTubeParse.parser(result.toString());
-                for (YouTubeEntity obj : list){
-                    if (obj.packageId.equalsIgnoreCase(mContext.getString(R.string.packageId))){
-                        ((ModelCallBackAbout)mCallBack).onData(obj);
-                        break;
+                if (list.size()>0) {
+                    for (YouTubeEntity obj : list) {
+                        if (obj.packageId.equalsIgnoreCase(mContext.getString(R.string.packageId))) {
+                            ((ModelCallBackAbout) mCallBack).onData(obj);
+                            break;
+                        }
                     }
+                } else {
+                    YouTubeEntity obj = new YouTubeEntity();
+                    obj.status = 2;
+                    ((ModelCallBackAbout) mCallBack).onData(obj);
                 }
             }
         });

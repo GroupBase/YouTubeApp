@@ -15,6 +15,8 @@
     <string name="packageId">app.thn.groupbase.gameshowtv</string>
     <string name="channel_address">https://www.youtube.com/channel/UCxoVze8NvPpCih28VgCRl0A</string>
     <string name="close">Đóng</string>
+    <string name="share_title">Chia sẽ video này</string>
+    <string name="share_link">https://www.youtube.com/watch?v=%1s</string>
     <string name="dialog_title">Bảo trì máy chủ</string>
     <string name="dialog_message">Máy chủ đang trong quá trình bảo trì để phục vụ người dùng tốt hơn. Chúng tôi sẽ mở lại sớm nhất có thể xin lỗi vì sự bất tiện. </string>
 </resources>

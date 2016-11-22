@@ -2,6 +2,7 @@ package dev.vn.groupbase.api;
 
 import com.android.volley.Request;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -30,17 +31,23 @@ public class CheckAppApi extends ApiJsonBase {
 
     }
     public void execute() {
-        mParams.put("username","truonghieunghia_acnovn");
-        mParams.put("pass","abc201114abc251184");
-        if (BuildConfig.DEBUG) {
-            mParams.put("app_build", "2");
-        } else {
-            mParams.put("app_build", "1");
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username","truonghieunghia_acnovn");
+            jsonObject.put("pass","abc201114abc251184");
+            if (BuildConfig.DEBUG) {
+                jsonObject.put("app_build", "2");
+            } else {
+                jsonObject.put("app_build", "1");
+            }
+        } catch (JSONException e) {
+            jsonObject = new JSONObject();
         }
         Map<String,String> params_header = new HashMap<String, String>();
         params_header.put("Content-Type","application/x-www-form-urlencoded");
         setHeader(params_header);
-        this.asyncRequest(YoutubeConstant.CHECK_APP, mParams, Request.Method.POST);
+        this.asyncRequest(YoutubeConstant.CHECK_APP,jsonObject, null, Request.Method.POST);
     }
 
 }

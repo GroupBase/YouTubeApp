@@ -23,7 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.thn.groupbase.gameshowtv.R;
-import dev.vn.groupbase.activity.BaseActivity;
 import dev.vn.groupbase.api.entity.VideoEntity;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
@@ -43,14 +42,14 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * Created by acnovn on 11/3/16.
  */
 
-public class VideoPlayFragment extends FragmentCommon implements StreamVideoListener ,ModelCallBackVideoPlay {
+public class VideoPlayFragment extends FragmentCommon implements StreamVideoListener, ModelCallBackVideoPlay {
     private StreamVideoFragment videoFragment;
-    private String videoId,url_img;
-    private View videoBox,ln_videoContent;
-    private ImageView iv_bookMark;
+    private String videoId, url_img;
+    private View videoBox, ln_videoContent;
+    private ImageView iv_bookMark, iv_share;
     private BookMarkTable bookMarkTable;
     private VideoPlayModel mModel;
-    private TextView tv_description,tv_title;
+    private TextView tv_description, tv_title;
     private static final String URL_REGEX = new String("http[s]?://[\\w\\d/%#$&?()~_.=+-]+");
     private View.OnLayoutChangeListener listener = new View.OnLayoutChangeListener() {
         @Override
@@ -82,6 +81,7 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
 
         }
     };
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_video_play;
@@ -92,16 +92,17 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
         videoFragment =
                 (StreamVideoFragment) getChildFragmentManager().findFragmentById(R.id.video_fragment_container);
         videoBox = findViewById(R.id.video_box);
-        iv_bookMark = (ImageView)findViewById(R.id.iv_bookMark);
+        iv_bookMark = (ImageView) findViewById(R.id.iv_bookMark);
+        iv_share = (ImageView) findViewById(R.id.iv_share);
         ln_videoContent = findViewById(R.id.ln_videoContent);
         videoFragment.setListener(this);
-        tv_description = (TextView)findViewById(R.id.tv_description);
-        tv_title = (TextView)findViewById(R.id.tv_title);
-        videoId = getArguments().getString("video_id","");
-        url_img = getArguments().getString("url_img","");
-        BookMarkTable obj = (BookMarkTable)getArguments().getSerializable("bookmark");
+        tv_description = (TextView) findViewById(R.id.tv_description);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        videoId = getArguments().getString("video_id", "");
+        url_img = getArguments().getString("url_img", "");
+        BookMarkTable obj = (BookMarkTable) getArguments().getSerializable("bookmark");
         bookMarkTable = new BookMarkTable();
-        if (obj!=null){
+        if (obj != null) {
             bookMarkTable = obj;
         } else {
             bookMarkTable.imgPlayList = "";
@@ -112,24 +113,37 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
             bookMarkTable.videoName = "";
         }
         mModel.requestVideo(videoId);
-        if(!TextUtils.isEmpty(videoId)){
-            videoFragment.loadVideo(videoId,url_img);
+        if (!TextUtils.isEmpty(videoId)) {
+            videoFragment.loadVideo(videoId, url_img);
         }
 
         iv_bookMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookMarkTable != null){
+                if (bookMarkTable != null) {
                     YouTubeAppManager.insertBookMark(bookMarkTable);
                     iv_bookMark.setVisibility(View.GONE);
                 }
+            }
+        });
+        iv_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((TextUtils.isEmpty(videoId))) {
+                    return;
+                }
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_link), videoId));
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_title)));
             }
         });
     }
 
     @Override
     protected ModelCommon initModel() {
-        if (mModel == null){
+        if (mModel == null) {
             mModel = new VideoPlayModel(this);
         }
         return mModel;
@@ -138,41 +152,49 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
     @Override
     public void setVisibilityActionBar() {
         mToolbarLeft.setVisibility(View.VISIBLE);
-        TextView title = (TextView)mToolbarLeft.findViewById(R.id.tv_title);
+        TextView title = (TextView) mToolbarLeft.findViewById(R.id.tv_title);
         title.setVisibility(View.VISIBLE);
-        title.setText(getArguments().getString("title",""));
+        title.setText(getArguments().getString("title", ""));
     }
 
     @Override
     public void onRequestStreamStart() {
         ProgressLoading.show();
-        if (videoFragment.isAd()){
+        if (videoFragment.isAd()) {
             videoFragment.loadAd();
         }
     }
 
     @Override
-    public void onRequestStreamError() {
+    public void onRequestStreamError(RequestError error_type) {
         ProgressLoading.dismiss();
+        switch (error_type){
+            case NETWORK:
+            case NETWORK_LOST:
+                onShowError();
+                break;
+        }
     }
 
     @Override
     public void onRequestStreamFinish() {
-        if(videoBox.getVisibility() != View.VISIBLE) {
+        if (videoBox.getVisibility() != View.VISIBLE) {
             videoBox.addOnLayoutChangeListener(listener);
         } else {
             ProgressLoading.dismiss();
         }
         videoBox.setVisibility(View.VISIBLE);
     }
-    private void checkBookMark(String videoID,String playListId){
-        boolean isExits = YouTubeAppManager.checkExitsBookMark(videoID,playListId);
-        if (!isExits){
+
+    private void checkBookMark(String videoID, String playListId) {
+        boolean isExits = YouTubeAppManager.checkExitsBookMark(videoID, playListId);
+        if (!isExits) {
             iv_bookMark.setVisibility(View.VISIBLE);
         } else {
             iv_bookMark.setVisibility(View.GONE);
         }
     }
+
     @Override
     public void onFullScreen() {
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -195,14 +217,14 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
         setLayoutSize(ln_videoContent, MATCH_PARENT, MATCH_PARENT);
         setLayoutSizeAndGravity(videoBox, MATCH_PARENT, WRAP_CONTENT, Gravity.TOP);
         setLayoutSize(videoFragment.getView(), MATCH_PARENT, WRAP_CONTENT);
-        if (bookMarkTable!=null) {
+        if (bookMarkTable != null) {
             checkBookMark(bookMarkTable.videoId, bookMarkTable.playListId);
         }
     }
 
     @Override
     public void onLoadAdFinish() {
-        if (!videoFragment.isStream()){
+        if (!videoFragment.isStream()) {
             ProgressLoading.show();
         } else {
             ProgressLoading.dismiss();
@@ -214,12 +236,13 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
 
     }
 
-    public  void setLayoutSize(View view, int width, int height) {
+    public void setLayoutSize(View view, int width, int height) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.width = width;
         params.height = height;
         view.setLayoutParams(params);
     }
+
     public void setLayoutSizeAndGravity(View view, int width, int height, int gravity) {
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
         params.width = width;
@@ -231,7 +254,7 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
 
     @Override
     public void onData(VideoEntity data) {
-        if (data==null){
+        if (data == null) {
             tv_title.setText("");
             tv_description.setText("");
         } else {
@@ -249,21 +272,31 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
             }
             tv_description.setText(spannable, TextView.BufferType.SPANNABLE);
             tv_description.setMovementMethod(LinkMovementMethod.getInstance());
-            if (bookMarkTable!=null) {
-                checkBookMark(bookMarkTable.videoId,bookMarkTable.playListId);
+            if (bookMarkTable != null) {
+                checkBookMark(bookMarkTable.videoId, bookMarkTable.playListId);
             }
         }
     }
 
     @Override
     public void onError(RequestError error_type) {
-        switch (error_type){
+        switch (error_type) {
             case NETWORK:
             case NETWORK_LOST:
                 onShowError();
                 break;
         }
     }
+
+    @Override
+    public void onReload() {
+
+        if (!TextUtils.isEmpty(videoId)) {
+            mModel.requestVideo(videoId);
+            videoFragment.loadVideo(videoId, url_img);
+        }
+    }
+
     //
     private static class CustomUrlSpan extends URLSpan {
 
