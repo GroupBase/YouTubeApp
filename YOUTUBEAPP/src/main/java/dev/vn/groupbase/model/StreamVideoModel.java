@@ -69,7 +69,8 @@ public class StreamVideoModel extends ModelCommon {
                     }
                 }catch (Exception e){
                     DebugLog.log_e(TAG, "parse");
-                    ((ModelCallBackStreamVideo) mCallBack).onError(RequestError.NETWORK);
+                    ((ModelCallBackStreamVideo) mCallBack).onData("https://www.youtube.com/watch?v="+videoId,true);
+//                    ((ModelCallBackStreamVideo) mCallBack).onError(RequestError.NETWORK);
                     return;
                 }
 
@@ -90,7 +91,7 @@ public class StreamVideoModel extends ModelCommon {
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ((ModelCallBackStreamVideo) mCallBack).onData(url_stream.get(0));
+                                        ((ModelCallBackStreamVideo) mCallBack).onData(url_stream.get(0),false);
                                     }
                                 });
 

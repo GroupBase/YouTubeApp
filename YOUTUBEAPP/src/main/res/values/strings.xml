@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">Trò chơi truyền hình</string>
     <string name="channel_key">UCxoVze8NvPpCih28VgCRl0A</string>
-    <string name="start_app_id"></string>
-    <string name="admod_id">ca-app-pub-6297704753603536/6772383602</string>
-    <string name="amobi_id"></string>
+    <string name="amobi_id">d49a00e86ceff414af831c6cc2eee9a3</string>
     <string name="init_data">Đang nạp dữ liệu ...</string>
     <string name="watched">Đã xem</string>
     <string name="error">Đã có vấn đề xảy ra trên đường truyền.\n Vui lòng kiểm tra lại kết nối Internet </string>

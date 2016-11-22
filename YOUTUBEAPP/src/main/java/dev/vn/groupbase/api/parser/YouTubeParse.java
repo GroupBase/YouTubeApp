@@ -32,6 +32,24 @@ public class YouTubeParse {
                     if (object.has("appName")){
                         obj.appName = object.getString("appName");
                     }
+                    if (object.has("ad_start_app")){
+                        obj.ad_start_app = object.getString("ad_start_app");
+                    }
+                    if (object.has("ad_admod_init")){
+                        obj.ad_admod_init = object.getString("ad_admod_init");
+                    }
+                    if (object.has("ad_admod_key")){
+                        obj.ad_admod_key = object.getString("ad_admod_key");
+                    }
+                    if (object.has("version_new")){
+                        obj.version_new = object.getInt("version_new");
+                    }
+                    if (object.has("version_old")){
+                        obj.version_old = object.getInt("version_old");
+                    }
+                    if (object.has("versionName")){
+                        obj.versionName = object.getString("version_old");
+                    }
                     lst.add(obj);
                 }
             }

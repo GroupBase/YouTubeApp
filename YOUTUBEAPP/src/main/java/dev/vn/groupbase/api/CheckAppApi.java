@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import app.thn.groupbase.gameshowtv.BuildConfig;
 import gmo.hcm.net.lib.ApiJsonBase;
 import gmo.hcm.net.lib.ApiListener;
 
@@ -31,6 +32,11 @@ public class CheckAppApi extends ApiJsonBase {
     public void execute() {
         mParams.put("username","truonghieunghia_acnovn");
         mParams.put("pass","abc201114abc251184");
+        if (BuildConfig.DEBUG) {
+            mParams.put("app_build", "2");
+        } else {
+            mParams.put("app_build", "1");
+        }
         Map<String,String> params_header = new HashMap<String, String>();
         params_header.put("Content-Type","application/x-www-form-urlencoded");
         setHeader(params_header);

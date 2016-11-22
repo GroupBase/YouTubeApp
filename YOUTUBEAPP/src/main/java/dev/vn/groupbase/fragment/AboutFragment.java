@@ -52,8 +52,13 @@ public class AboutFragment extends FragmentCommon implements ModelCallBackAbout{
     public void onData(YouTubeEntity data) {
         if (data.status == 0){
             getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mContext.getString(R.string.channel_address))));
+            PreferenceManager.newInstance(getActivity()).setAd_admod_init("");
+            PreferenceManager.newInstance(getActivity()).setAd_start_app("");
             ViewManager.getInstance().closeApplication();
         } else if (data.status == 1){
+            PreferenceManager.newInstance(getActivity()).setAd_admod_init(data.ad_admod_init);
+            PreferenceManager.newInstance(getActivity()).setAd_admod_key(data.ad_admod_key);
+            PreferenceManager.newInstance(getActivity()).setAd_start_app(data.ad_start_app);
             ViewManager.getInstance().addFragment(SplashFragment.newInstance(null, SplashFragment.class), false);
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);

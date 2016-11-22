@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.thn.groupbase.gameshowtv.R;
+import dev.vn.groupbase.PreferenceManager;
 import dev.vn.groupbase.activity.PlayListItemsActivity;
 import dev.vn.groupbase.adapter.PlayListAdapter;
 import dev.vn.groupbase.api.entity.PlayListEntity;
@@ -52,7 +53,9 @@ public class PlayListFragment extends FragmentCommon implements ModelCallBackPla
     protected void initView() {
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         mInterstitialAd = new InterstitialAd(mContext);
-        mInterstitialAd.setAdUnitId(getString(R.string.admod_id));
+        if (!TextUtils.isEmpty(PreferenceManager.newInstance(getActivity()).getAd_admod_key())) {
+            mInterstitialAd.setAdUnitId(PreferenceManager.newInstance(getActivity()).getAd_admod_key());
+        }
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {

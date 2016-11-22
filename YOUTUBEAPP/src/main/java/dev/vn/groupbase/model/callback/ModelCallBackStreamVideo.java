@@ -7,5 +7,5 @@ import dev.vn.groupbase.common.ModelCallBack;
  */
 
 public interface ModelCallBackStreamVideo extends ModelCallBack {
-    void onData(String url);
+    void onData(String url,boolean isBrowser);
 }

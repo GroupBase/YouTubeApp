@@ -162,11 +162,16 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     }
 
     @Override
-    public void onData(String data) {
-        isHavaStream = true;
-        String url_Stream = data.toString();
-        mVideoUri = url_Stream;
-        play(mVideoUri);
+    public void onData(String data, boolean isBrowser) {
+        if (isBrowser){
+            mStreamVideoListener.onRequestStreamError();
+            getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data)));
+        } else {
+            isHavaStream = true;
+            String url_Stream = data.toString();
+            mVideoUri = url_Stream;
+            play(mVideoUri);
+        }
 
     }
     private void play(String url_Stream){
