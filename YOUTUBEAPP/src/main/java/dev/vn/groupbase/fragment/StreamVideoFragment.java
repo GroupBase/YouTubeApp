@@ -261,10 +261,6 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
         return 0;
     }
 
-    public void requestLayout(){
-        setVideoSize();
-        mStreamVideoListener.onRequestStreamFinish();
-    }
     private void setVideoSize() {
 
         // // Get the dimensions of the video
