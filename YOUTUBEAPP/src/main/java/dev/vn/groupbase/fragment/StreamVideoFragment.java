@@ -54,6 +54,8 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     private boolean loadAd = false;
     private boolean isHavaStream = false;
     private boolean stopAd = false;
+    private boolean adShowing = false;
+    private boolean isBrowser = false;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_stream_video;
@@ -162,16 +164,19 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
 
     @Override
     public void onData(String data, boolean isBrowser) {
-        if (isBrowser){
-            mStreamVideoListener.onRequestStreamError(RequestError.DATA_ERROR);
-            getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data)));
-        } else {
-            isHavaStream = true;
-            String url_Stream = data.toString();
-            mVideoUri = url_Stream;
-            play(mVideoUri);
+        this.isBrowser = isBrowser;
+        if (!adShowing) {
+            if (this.isBrowser){
+                this.isBrowser = false;
+                mStreamVideoListener.onRequestStreamError(RequestError.DATA_ERROR);
+                getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data)));
+            } else {
+                String url_Stream = data.toString();
+                mVideoUri = url_Stream;
+                isHavaStream = true;
+                play(mVideoUri);
+            }
         }
-
     }
     private void play(String url_Stream){
         if (mp == null) {
@@ -256,6 +261,10 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
         return 0;
     }
 
+    public void requestLayout(){
+        setVideoSize();
+        mStreamVideoListener.onRequestStreamFinish();
+    }
     private void setVideoSize() {
 
         // // Get the dimensions of the video
@@ -300,11 +309,11 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void onPrepared(MediaPlayer mp) {
         DebugLog.log_e(TAG, "onPrepared");
-        setVideoSize();
         Glide.with(mContext).load(url_thumbnail)
                 .skipMemoryCache(false)
                 .into(thumbnail);
         thumbnail.setVisibility(View.VISIBLE);
+        setVideoSize();
         mStreamVideoListener.onRequestStreamFinish();
     }
 
@@ -321,6 +330,11 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
         if (!TextUtils.isEmpty(mVideoUri)){
             if (isPlay) {
                 mp.start();
+            } else {
+                Glide.with(mContext).load(url_thumbnail)
+                        .skipMemoryCache(false)
+                        .into(thumbnail);
+                thumbnail.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -333,6 +347,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
     @Override
     public void onAdAvailable() {
         DebugLog.showToast("onAdAvailable");
+        DebugLog.log_e(TAG, "onAdAvailable");
         loadAd = true;
         Intent intent = getActivity().getIntent();
         if (intent!=null) {
@@ -357,17 +372,30 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
 
     @Override
     public void onAdStarted() {
+        adShowing = true;
         mStreamVideoListener.onLoadAdStart();
     }
 
     @Override
     public void onAdFinished() {
+        DebugLog.log_e(TAG, "onAdFinished");
         mStreamVideoListener.onLoadAdFinish();
         loadAd = false;
-        Intent intent = getActivity().getIntent();
+        adShowing = false;
         if (!stopAd) {
             AmobiVideoAd.getInstance().prepare(getActivity());
         }
+        if (this.isBrowser){
+            this.isBrowser = false;
+            mStreamVideoListener.onRequestStreamError(RequestError.DATA_ERROR);
+            getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mVideoUri)));
+        } else {
+            if (!TextUtils.isEmpty(mVideoUri)) {
+                isHavaStream = true;
+                play(mVideoUri);
+            }
+        }
+
     }
     public void loadAd(){
         AmobiVideoAd.getInstance().showAd(new AmobiShowVideoAdRequest());
@@ -389,15 +417,13 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
             mp.setDisplay(holder);
         }
         mFirstSurface = holder;
+
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         DebugLog.log_e(TAG, "surfaceChanged");
-//        setVideoSize();
-//        if (mStreamVideoListener!=null) {
-//            mStreamVideoListener.onRequestStreamFinish();
-//        }
+
     }
 
     @Override
@@ -423,6 +449,7 @@ public class StreamVideoFragment extends FragmentCommon implements View.OnClickL
             if (mp != null) {
                 mp.release();
                 mp = null;
+                mController = null;
             }
         }
     }

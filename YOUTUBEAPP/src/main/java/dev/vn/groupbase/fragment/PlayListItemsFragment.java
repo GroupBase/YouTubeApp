@@ -60,7 +60,6 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     private View main_view;
     private String mVideoID = "";
     private boolean isFullScreen = false;
-    private boolean isLoasVIdeoAd = false;
     private View.OnLayoutChangeListener listener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(final View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -164,7 +163,7 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
                 (StreamVideoFragment) getChildFragmentManager().findFragmentById(R.id.video_fragment_container);
         videoFragment.setListener(this);
         videoBox = findViewById(R.id.video_box);
-        close_button.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
+        close_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iv_bookMark.setVisibility(View.GONE);
@@ -249,13 +248,13 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
         }
         if (!TextUtils.isEmpty(videoId)) {
             mVideoID = videoId;
-            videoFragment.loadVideo(videoId, url);
             int showAd = clickCount % 3;
             DebugLog.showToast(showAd + "");
             if (videoFragment.isAd() && (showAd == 0 || showAd == 3)) {
                 ProgressLoading.dismiss();
                 videoFragment.loadAd();
             }
+            videoFragment.loadVideo(videoId, url);
             clickCount++;
         }
         HistoryTable historyTable = new HistoryTable();
@@ -310,18 +309,6 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
     @Override
     public void onRequestStreamFinish() {
         DebugLog.log_e("PlayListItemsFragment", "onRequestStreamFinish");
-//        isLoasVIdeoAd = false;
-//        if (!isLoasVIdeoAd) {
-//            if (videoBox.getVisibility() != View.VISIBLE ) {
-//                videoBox.addOnLayoutChangeListener(listener);
-//            } else {
-//                ProgressLoading.dismiss();
-//            }
-//            videoBox.setVisibility(View.VISIBLE);
-//            if (bookMarkTable != null) {
-//                checkBookMark(bookMarkTable.videoId, bookMarkTable.playListId);
-//            }
-//        }
         if (videoBox.getVisibility() != View.VISIBLE ) {
             videoBox.addOnLayoutChangeListener(listener);
         } else {
@@ -365,7 +352,6 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
     @Override
     public void onLoadAdFinish() {
-        isLoasVIdeoAd = false;
         if (!videoFragment.isStream()) {
             ProgressLoading.show();
         } else {
@@ -375,7 +361,6 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
 
     @Override
     public void onLoadAdStart() {
-        isLoasVIdeoAd = true;
     }
 
     @Override

@@ -102,6 +102,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
     }
 
     public void showErrorView() {
+        ProgressLoading.dismiss();
         findViewById(R.id.ln_error).setVisibility(View.VISIBLE);
         findViewById(R.id.content).setVisibility(View.GONE);
     }
