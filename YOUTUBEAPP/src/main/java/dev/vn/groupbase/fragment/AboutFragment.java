@@ -4,9 +4,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import app.thn.groupbase.gameshowtv.BuildConfig;
 import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.PreferenceManager;
 import dev.vn.groupbase.api.entity.YouTubeEntity;
@@ -30,6 +35,16 @@ public class AboutFragment extends FragmentCommon implements ModelCallBackAbout{
 
     @Override
     protected void initView() {
+//        if (BuildConfig.DEBUG) {
+//            if (!TextUtils.isEmpty(PreferenceManager.newInstance(ViewManager.getInstance().getActivity()).getAd_admod_key())) {
+//                AdView mAdView = (AdView) findViewById(R.id.adView);
+//                mAdView.setVisibility(View.VISIBLE);
+//                mAdView.setAdUnitId(PreferenceManager.newInstance(ViewManager.getInstance().getActivity()).getAd_admod_key());
+//                AdRequest adRequest = new AdRequest.Builder().build();
+//                mAdView.loadAd(adRequest);
+//            }
+//        }
+
         findViewById(R.id.iv_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

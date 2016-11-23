@@ -24,9 +24,9 @@ public class MainActivity extends ActivityCommon {
             StartAppSDK.init(this, PreferenceManager.newInstance(getApplicationContext()).getAd_start_app(), true);
         }
         StartAppAd.disableSplash();
-        if (!TextUtils.isEmpty(PreferenceManager.newInstance(getApplicationContext()).getAd_admod_init())) {
-            MobileAds.initialize(getApplicationContext(), PreferenceManager.newInstance(getApplicationContext()).getAd_admod_init());
-        }
+//        if (!TextUtils.isEmpty(PreferenceManager.newInstance(getApplicationContext()).getAd_admod_init())) {
+//            MobileAds.initialize(getApplicationContext(), PreferenceManager.newInstance(getApplicationContext()).getAd_admod_init());
+//        }
     }
 
     @Override
