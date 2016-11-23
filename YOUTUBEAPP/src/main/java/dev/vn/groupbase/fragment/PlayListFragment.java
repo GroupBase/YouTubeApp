@@ -16,6 +16,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.thn.groupbase.gameshowtv.BuildConfig;
 import app.thn.groupbase.gameshowtv.R;
 import dev.vn.groupbase.PreferenceManager;
 import dev.vn.groupbase.activity.PlayListItemsActivity;
@@ -66,8 +67,15 @@ public class PlayListFragment extends FragmentCommon implements ModelCallBackPla
         requestNewInterstitial();
     }
     private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("73C26E9772F06EC5DBD172AFB699FFC8").build();
-        mInterstitialAd.loadAd(adRequest);
+
+        if (BuildConfig.DEBUG) {
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice("73C26E9772F06EC5DBD172AFB699FFC8").build();
+            mInterstitialAd.loadAd(adRequest);
+        } else {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mInterstitialAd.loadAd(adRequest);
+        }
+
     }
     @Override
     protected ModelCommon initModel() {

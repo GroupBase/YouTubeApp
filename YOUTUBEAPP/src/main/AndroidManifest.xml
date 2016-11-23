@@ -37,7 +37,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="dev.vn.groupbase.activity.VideoPlayActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"  />
         <!--start app-->
         <activity android:name="com.startapp.android.publish.list3d.List3DActivity"
             android:theme="@android:style/Theme" />

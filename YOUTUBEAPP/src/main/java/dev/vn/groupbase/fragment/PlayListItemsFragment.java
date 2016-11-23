@@ -251,7 +251,6 @@ public class PlayListItemsFragment extends FragmentCommon implements ModelCallBa
             int showAd = clickCount % 3;
             DebugLog.showToast(showAd + "");
             if (videoFragment.isAd() && (showAd == 0 || showAd == 3)) {
-                ProgressLoading.dismiss();
                 videoFragment.loadAd();
             }
             videoFragment.loadVideo(videoId, url);

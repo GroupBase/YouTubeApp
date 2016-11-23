@@ -66,6 +66,9 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
                 public void onAnimationEnd(Animator animation) {
                     ln_videoContent.animate().setListener(null);
                     ProgressLoading.dismiss();
+                    if (videoFragment.isAd()) {
+                        videoFragment.loadAd();
+                    }
                 }
 
                 @Override
@@ -160,9 +163,7 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
     @Override
     public void onRequestStreamStart() {
         ProgressLoading.show();
-        if (videoFragment.isAd()) {
-            videoFragment.loadAd();
-        }
+
     }
 
     @Override
@@ -182,8 +183,12 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
             videoBox.addOnLayoutChangeListener(listener);
         } else {
             ProgressLoading.dismiss();
+            if (videoFragment.isAd()) {
+                videoFragment.loadAd();
+            }
         }
         videoBox.setVisibility(View.VISIBLE);
+
     }
 
     private void checkBookMark(String videoID, String playListId) {
