@@ -54,9 +54,7 @@ public class PlayListFragment extends FragmentCommon implements ModelCallBackPla
     protected void initView() {
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         mInterstitialAd = new InterstitialAd(mContext);
-        if (!TextUtils.isEmpty(PreferenceManager.newInstance(getActivity()).getAd_admod_key())) {
-            mInterstitialAd.setAdUnitId(PreferenceManager.newInstance(getActivity()).getAd_admod_key());
-        }
+        mInterstitialAd.setAdUnitId(mContext.getString(R.string.ad_admod_interstitial));
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {

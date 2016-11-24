@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.startapp.android.publish.StartAppAd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +107,5 @@ public class HomeFragment extends FragmentCommon implements ModelCallBackHome, O
         data.putString(LIST_PLAY_IMAGE,url_data);
         intent.putExtras(data);
         startActivity(intent);
-        StartAppAd.showAd(mContext);
     }
 }

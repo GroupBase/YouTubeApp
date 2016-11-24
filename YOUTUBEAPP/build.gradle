@@ -9,8 +9,8 @@ android {
         applicationId "app.thn.groupbase.gameshowtv"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 5
-        versionName "1.4"
+        versionCode 8
+        versionName "1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -47,6 +47,5 @@ dependencies {
     compile 'com.android.support:design:25.0.0'
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'com.google.firebase:firebase-ads:9.8.0'
-    compile files('libs/StartAppInApp-3.5.1.jar')
     compile files('libs/Amobi SDK v2.0 20150520.jar')
 }

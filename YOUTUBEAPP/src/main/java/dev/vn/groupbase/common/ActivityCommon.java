@@ -18,7 +18,7 @@ import gmo.hcm.net.lib.NetworkUtil;
  */
 
 public abstract class ActivityCommon extends AppCompatActivity {
-    private int mLayoutCommon = 0;
+    protected int mLayoutCommon = 0;
     private ReloadListener reloadListener;
 
     public void setReloadListener(ReloadListener reloadListener) {
@@ -95,7 +95,9 @@ public abstract class ActivityCommon extends AppCompatActivity {
     public void reloadData(View v) {
         if (NetworkUtil.isNetworkConnected(this)) {
             showHideView();
-            reloadListener.onReload();
+            if (reloadListener!=null) {
+                reloadListener.onReload();
+            }
         } else {
             showErrorView();
         }
@@ -116,7 +118,9 @@ public abstract class ActivityCommon extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!NetworkUtil.isNetworkConnected(context)){
-                reloadListener.onShowError();
+                if (reloadListener!=null) {
+                    reloadListener.onShowError();
+                }
             }
         }
     };

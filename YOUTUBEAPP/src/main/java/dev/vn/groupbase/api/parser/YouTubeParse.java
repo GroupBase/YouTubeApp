@@ -32,15 +32,6 @@ public class YouTubeParse {
                     if (object.has("appName")){
                         obj.appName = object.getString("appName");
                     }
-                    if (object.has("ad_start_app")){
-                        obj.ad_start_app = object.getString("ad_start_app");
-                    }
-                    if (object.has("ad_admod_init")){
-                        obj.ad_admod_init = object.getString("ad_admod_init");
-                    }
-                    if (object.has("ad_admod_key")){
-                        obj.ad_admod_key = object.getString("ad_admod_key");
-                    }
                     if (object.has("version_new")){
                         obj.version_new = object.getInt("version_new");
                     }

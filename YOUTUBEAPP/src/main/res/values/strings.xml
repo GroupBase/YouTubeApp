@@ -2,6 +2,10 @@
     <string name="app_name">Game Show truyền hình</string>
     <string name="channel_key">UCxoVze8NvPpCih28VgCRl0A</string>
     <string name="amobi_id">d49a00e86ceff414af831c6cc2eee9a3</string>
+    <string name="ad_admod_init">ca-app-pub-6297704753603536~5295650401</string>
+    <string name="ad_admod_interstitial">ca-app-pub-6297704753603536/6128948407</string>
+    <string name="ad_admod_banner">ca-app-pub-6297704753603536/3234357606</string>
+
     <string name="init_data">Đang nạp dữ liệu ...</string>
     <string name="watched">Đã xem</string>
     <string name="error">Đã có vấn đề xảy ra trên đường truyền.\n Vui lòng kiểm tra lại kết nối Internet </string>

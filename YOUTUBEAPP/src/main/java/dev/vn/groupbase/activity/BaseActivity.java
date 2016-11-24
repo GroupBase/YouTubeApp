@@ -18,7 +18,9 @@ public abstract class BaseActivity extends ActivityCommon {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setLayOutCommon(R.layout.activity_base);
+        if (mLayoutCommon==0) {
+            setLayOutCommon(R.layout.activity_base);
+        }
         super.onCreate(savedInstanceState);
 
     }

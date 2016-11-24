@@ -37,13 +37,4 @@
         android:layout_below="@+id/tv_info"
         android:layout_centerHorizontal="true"
         android:src="@drawable/next" />
-
-    <!--<com.google.android.gms.ads.AdView-->
-        <!--android:id="@+id/adView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginBottom="20dp"-->
-        <!--ads:adSize="BANNER"></com.google.android.gms.ads.AdView>-->
 </RelativeLayout>

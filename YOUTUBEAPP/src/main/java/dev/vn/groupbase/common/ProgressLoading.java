@@ -28,6 +28,8 @@ public class ProgressLoading {
     }
 
     public static void dismiss() {
-        pd_loading.dismiss();
+        if (pd_loading!=null) {
+            pd_loading.dismiss();
+        }
     }
 }
