@@ -203,4 +203,10 @@ public class PlayListActivity extends BaseActivity implements ModelCallBackPlayL
     public void onHideError() {
         showHideView();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestNewInterstitial();
+    }
 }

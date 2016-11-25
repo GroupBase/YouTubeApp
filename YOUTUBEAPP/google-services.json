@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_number": "373217998260",
+    "firebase_url": "https://gameshow-tv.firebaseio.com",
+    "project_id": "gameshow-tv",
+    "storage_bucket": "gameshow-tv.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373217998260:android:850114b347d9a440",
+        "android_client_info": {
+          "package_name": "app.thn.groupbase.gameshowtv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373217998260-eoalf0v8ap5dvancil8k8ftp9i5fbukd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.thn.groupbase.gameshowtv",
+            "certificate_hash": "258A1D2AFE1692A22FA62DCCF37A8906D7E79A6A"
+          }
+        },
+        {
+          "client_id": "373217998260-lahhaamqe5afp3oi44ml31qbbbb1lulg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [{ "current_key": "AIzaSyAx0KGO0i142x-fzj2ZiRzEkApCvgfQmQ0" }],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373217998260-lahhaamqe5afp3oi44ml31qbbbb1lulg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
