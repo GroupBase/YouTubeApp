@@ -36,7 +36,7 @@ public class MainActivity extends ActivityCommon implements ModelCallBackAbout ,
 
     @Override
     protected void onCreateExecute(Bundle savedInstanceState) {
-        MobileAds.initialize(this,getString(R.string.ad_admod_init));
+        MobileAds.initialize(getApplicationContext(),getString(R.string.ad_admod_init));
         setReloadListener(this);
         AdView mAdView = (AdView) findViewById(R.id.adView);
         mAdView.setVisibility(View.VISIBLE);

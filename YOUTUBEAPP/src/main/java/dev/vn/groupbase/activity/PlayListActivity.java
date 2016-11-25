@@ -54,7 +54,6 @@ public class PlayListActivity extends BaseActivity implements ModelCallBackPlayL
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        setLayOutCommon(R.layout.fragment_playlist);
         super.onCreate(savedInstanceState);
     }
 
@@ -62,7 +61,7 @@ public class PlayListActivity extends BaseActivity implements ModelCallBackPlayL
     protected void onCreateExecute(Bundle savedInstanceState) {
         setReloadListener(this);
         ((FrameLayout) findViewById(R.id.content)).addView(LayoutInflater.from(this).inflate(R.layout.fragment_playlist, null));
-        MobileAds.initialize(this, getString(R.string.ad_admod_init));
+        MobileAds.initialize(getApplicationContext(), getString(R.string.ad_admod_init));
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.ad_admod_interstitial));
@@ -126,14 +125,15 @@ public class PlayListActivity extends BaseActivity implements ModelCallBackPlayL
     }
 
     private void requestNewInterstitial() {
-
-        if (BuildConfig.DEBUG) {
-            AdRequest adRequest = new AdRequest.Builder().addTestDevice("73C26E9772F06EC5DBD172AFB699FFC8").build();
-            mInterstitialAd.loadAd(adRequest);
-        } else {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mInterstitialAd.loadAd(adRequest);
-        }
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mInterstitialAd.loadAd(adRequest);
+//        if (BuildConfig.DEBUG) {
+//            AdRequest adRequest = new AdRequest.Builder().addTestDevice("73C26E9772F06EC5DBD172AFB699FFC8").build();
+//            mInterstitialAd.loadAd(adRequest);
+//        } else {
+//            AdRequest adRequest = new AdRequest.Builder().build();
+//            mInterstitialAd.loadAd(adRequest);
+//        }
 
     }
 

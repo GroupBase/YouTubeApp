@@ -45,16 +45,16 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"  />
         <!--start app-->
-        <activity android:name="com.startapp.android.publish.list3d.List3DActivity"
-            android:theme="@android:style/Theme" />
+        <!--<activity android:name="com.startapp.android.publish.list3d.List3DActivity"-->
+            <!--android:theme="@android:style/Theme" />-->
 
-        <activity android:name="com.startapp.android.publish.OverlayActivity"
-            android:theme="@android:style/Theme.Translucent"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <!--<activity android:name="com.startapp.android.publish.OverlayActivity"-->
+            <!--android:theme="@android:style/Theme.Translucent"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize" />-->
 
-        <activity android:name="com.startapp.android.publish.FullScreenActivity"
-            android:theme="@android:style/Theme"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <!--<activity android:name="com.startapp.android.publish.FullScreenActivity"-->
+            <!--android:theme="@android:style/Theme"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize" />-->
         <!--start app-->
         <!--amobi-->
         <activity android:name="vn.amobi.util.ads.video.player.VideoActivity" > </activity>
