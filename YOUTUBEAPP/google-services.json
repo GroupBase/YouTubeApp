@@ -1,33 +1,37 @@
 {
   "project_info": {
-    "project_number": "373217998260",
-    "firebase_url": "https://gameshow-tv.firebaseio.com",
-    "project_id": "gameshow-tv",
-    "storage_bucket": "gameshow-tv.appspot.com"
+    "project_number": "48971461426",
+    "firebase_url": "https://phim-kd.firebaseio.com",
+    "project_id": "phim-kd",
+    "storage_bucket": "phim-kd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:373217998260:android:850114b347d9a440",
+        "mobilesdk_app_id": "1:48971461426:android:9e00348fe0e738c1",
         "android_client_info": {
           "package_name": "app.thn.groupbase.phimkinhdi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "373217998260-eoalf0v8ap5dvancil8k8ftp9i5fbukd.apps.googleusercontent.com",
+          "client_id": "48971461426-0ib0qaqrcp9p9kfcsfa59nm8j7avoeae.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "app.thn.groupbase.phimkinhdi",
-            "certificate_hash": "258A1D2AFE1692A22FA62DCCF37A8906D7E79A6A"
+            "certificate_hash": "55DE78448FA89D45472F4CF3BAF51FFA426F5BBF"
           }
         },
         {
-          "client_id": "373217998260-lahhaamqe5afp3oi44ml31qbbbb1lulg.apps.googleusercontent.com",
+          "client_id": "48971461426-hqk78706gos6u46ulp1mm5kekm62nk9d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
-      "api_key": [{ "current_key": "AIzaSyAx0KGO0i142x-fzj2ZiRzEkApCvgfQmQ0" }],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTHEfSz4UsaKycFRAYj_v8aEn2RdEXxFM"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
@@ -36,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "373217998260-lahhaamqe5afp3oi44ml31qbbbb1lulg.apps.googleusercontent.com",
+              "client_id": "48971461426-hqk78706gos6u46ulp1mm5kekm62nk9d.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
