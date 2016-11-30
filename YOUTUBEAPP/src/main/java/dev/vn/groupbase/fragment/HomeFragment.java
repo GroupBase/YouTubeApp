@@ -12,7 +12,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.thn.groupbase.gameshowtv.R;
+import app.thn.groupbase.phimkinhdi.R;
 import dev.vn.groupbase.activity.PlayListItemsActivity;
 import dev.vn.groupbase.adapter.HomeAdapter;
 import dev.vn.groupbase.api.entity.PlayListEntity;

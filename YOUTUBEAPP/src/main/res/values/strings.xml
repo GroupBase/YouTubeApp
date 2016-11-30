@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Game Show truyền hình</string>
+    <string name="app_name">Phim Kinh Dị</string>
     <string name="channel_key">UCxoVze8NvPpCih28VgCRl0A</string>
     <string name="amobi_id">d49a00e86ceff414af831c6cc2eee9a3</string>
-    <string name="ad_admod_init">ca-app-pub-6297704753603536~5295650401</string>
-    <string name="ad_admod_interstitial">ca-app-pub-6297704753603536/5311363201</string>
-    <string name="ad_admod_banner">ca-app-pub-6297704753603536/3234357606</string>
+    <string name="ad_admod_init">ca-app-pub-6297704753603536~7691896805</string>
+    <string name="ad_admod_interstitial">ca-app-pub-6297704753603536/5586258006</string>
+    <string name="ad_admod_banner">ca-app-pub-6297704753603536/4109524805</string>
 
     <string name="init_data">Đang nạp dữ liệu ...</string>
     <string name="watched">Đã xem</string>
@@ -16,7 +16,7 @@
     Hiện tại trong ứng dụng có tích hợp chương trình Quảng cáo , Vì vậy chúng tôi xin lỗi vì sự bất tiện này.Một lần nữa
     chúng tôi xin cảm ơn người dùng đã sử dụng ứng dụng này.</string>
     <string name="thank_you">Lời cảm ơn</string>
-    <string name="packageId">app.thn.groupbase.gameshowtv</string>
+    <string name="packageId">app.thn.groupbase.phimkinhdi</string>
     <string name="channel_address">https://www.youtube.com/channel/UCxoVze8NvPpCih28VgCRl0A</string>
     <string name="close">Đóng</string>
     <string name="share_title">Chia sẽ video này</string>

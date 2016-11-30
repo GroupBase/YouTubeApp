@@ -22,7 +22,7 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.thn.groupbase.gameshowtv.R;
+import app.thn.groupbase.phimkinhdi.R;
 import dev.vn.groupbase.api.entity.VideoEntity;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;

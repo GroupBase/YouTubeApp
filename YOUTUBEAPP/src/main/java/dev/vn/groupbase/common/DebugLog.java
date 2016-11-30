@@ -2,7 +2,7 @@ package dev.vn.groupbase.common;
 
 import android.widget.Toast;
 
-import app.thn.groupbase.gameshowtv.BuildConfig;
+import app.thn.groupbase.phimkinhdi.BuildConfig;
 
 
 /**

@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import app.thn.groupbase.gameshowtv.BuildConfig;
+import app.thn.groupbase.phimkinhdi.BuildConfig;
 import gmo.hcm.net.lib.ApiJsonBase;
 import gmo.hcm.net.lib.ApiListener;
 

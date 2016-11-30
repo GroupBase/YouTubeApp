@@ -5,7 +5,7 @@ import com.android.volley.VolleyError;
 import java.util.ArrayList;
 import java.util.Random;
 
-import app.thn.groupbase.gameshowtv.R;
+import app.thn.groupbase.phimkinhdi.R;
 import dev.vn.groupbase.api.ChannelSectionsApi;
 import dev.vn.groupbase.api.PlayListItemsApi;
 import dev.vn.groupbase.api.entity.ChannelSectionEntity;

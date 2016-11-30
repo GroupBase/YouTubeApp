@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import app.thn.groupbase.gameshowtv.BuildConfig;
-import app.thn.groupbase.gameshowtv.R;
+import app.thn.groupbase.phimkinhdi.BuildConfig;
+import app.thn.groupbase.phimkinhdi.R;
 import dev.vn.groupbase.PreferenceManager;
 import dev.vn.groupbase.api.entity.YouTubeEntity;
 import dev.vn.groupbase.common.FragmentCommon;

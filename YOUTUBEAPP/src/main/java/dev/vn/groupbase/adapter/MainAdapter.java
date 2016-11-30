@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.thn.groupbase.gameshowtv.R;
+import app.thn.groupbase.phimkinhdi.R;
 import dev.vn.groupbase.common.ViewManager;
 import dev.vn.groupbase.fragment.BookMarkFragment;
 import dev.vn.groupbase.fragment.ChannelSectionsFragment;

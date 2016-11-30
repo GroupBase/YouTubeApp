@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 
-import app.thn.groupbase.gameshowtv.R;
+import app.thn.groupbase.phimkinhdi.R;
 import dev.vn.groupbase.adapter.MainAdapter;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;

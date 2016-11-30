@@ -1,4 +1,4 @@
-package app.thn.groupbase.gameshowtv;
+package app.thn.groupbase.phimkinhdi;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

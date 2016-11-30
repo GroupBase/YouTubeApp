@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import java.util.List;
 
-import app.thn.groupbase.gameshowtv.R;
+import app.thn.groupbase.phimkinhdi.R;
 
 
 /**

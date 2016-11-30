@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:373217998260:android:850114b347d9a440",
         "android_client_info": {
-          "package_name": "app.thn.groupbase.gameshowtv"
+          "package_name": "app.thn.groupbase.phimkinhdi"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "373217998260-eoalf0v8ap5dvancil8k8ftp9i5fbukd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "app.thn.groupbase.gameshowtv",
+            "package_name": "app.thn.groupbase.phimkinhdi",
             "certificate_hash": "258A1D2AFE1692A22FA62DCCF37A8906D7E79A6A"
           }
         },
