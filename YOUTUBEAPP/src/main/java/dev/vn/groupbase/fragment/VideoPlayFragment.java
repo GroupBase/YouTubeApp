@@ -183,9 +183,9 @@ public class VideoPlayFragment extends FragmentCommon implements StreamVideoList
             videoBox.addOnLayoutChangeListener(listener);
         } else {
             ProgressLoading.dismiss();
-            if (videoFragment.isAd()) {
-                videoFragment.loadAd();
-            }
+//            if (videoFragment.isAd()) {
+//                videoFragment.loadAd();
+//            }
         }
         videoBox.setVisibility(View.VISIBLE);
 

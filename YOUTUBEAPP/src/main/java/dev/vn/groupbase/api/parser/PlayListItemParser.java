@@ -33,7 +33,7 @@ public class PlayListItemParser extends ParserYoutubeBase {
                     obj.snippet = mParser.parserSnippet(getSnippet(item_child), PlayListItemEntity.Snippet.class);
                     obj.status = mParser.parserStatus(getStatus(item_child), PlayListItemEntity.Status.class);
                     obj.contentDetails = mParser.parserContentDetails(getContentDetails(item_child), PlayListItemEntity.ContentDetails.class);
-                    if (obj.status.privacyStatus.equalsIgnoreCase("public")) {
+                    if (obj.status.privacyStatus.equalsIgnoreCase("public") && obj.snippet != null) {
                         lst.add(obj);
                     }
                 }
@@ -60,6 +60,9 @@ public class PlayListItemParser extends ParserYoutubeBase {
             snippet.playlistId = getValue(json_snippet, "playlistId", String.class);
             snippet.position = getValue(json_snippet, "position", Integer.class);
             snippet.thumbnails = parser.parserThumbnails(getThumbnails(json_snippet), PlayListItemEntity.Snippet.Thumbnails.class);
+            if (snippet.title.equalsIgnoreCase("Deleted video")){
+                return null;
+            }
             return object.cast(snippet);
         }
         return null;

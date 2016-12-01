@@ -23,6 +23,7 @@ import java.util.List;
 import app.thn.groupbase.phimkinhdi.R;
 import dev.vn.groupbase.activity.PlayListItemsActivity;
 import dev.vn.groupbase.database.HistoryTable;
+import dev.vn.groupbase.model.PlayListModel;
 
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_IMAGE;
 import static dev.vn.groupbase.model.PlayListModel.LIST_PLAY_TITLE;
@@ -158,12 +159,20 @@ public class HistoryAdapter extends BaseExpandableListAdapter {
                 } catch (Exception e){
                     url = "";
                 }
+//                Intent intent = new Intent(mContext, PlayListItemsActivity.class);
+//                Bundle data = new Bundle();
+//                data.putString(PLAY_LIST_KEY,obj.playListId);
+//                data.putString(LIST_PLAY_TITLE,obj.playListName);
+//                data.putString(LIST_PLAY_IMAGE,url);
+//                intent.putExtras(data);
+//                mContext.startActivity(intent);
+                //
+                Bundle bundle = new Bundle();
+                bundle.putString(PlayListModel.PLAY_LIST_KEY, obj.playListId);
+                bundle.putString(PlayListModel.LIST_PLAY_TITLE, obj.playListName);
+                bundle.putInt("action_view", 1);
                 Intent intent = new Intent(mContext, PlayListItemsActivity.class);
-                Bundle data = new Bundle();
-                data.putString(PLAY_LIST_KEY,obj.playListId);
-                data.putString(LIST_PLAY_TITLE,obj.playListName);
-                data.putString(LIST_PLAY_IMAGE,url);
-                intent.putExtras(data);
+                intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }
         });

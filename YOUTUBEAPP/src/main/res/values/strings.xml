@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Phim Kinh Dị</string>
-    <string name="channel_key">UCxoVze8NvPpCih28VgCRl0A</string>
-    <string name="amobi_id">d49a00e86ceff414af831c6cc2eee9a3</string>
-    <string name="ad_admod_init">ca-app-pub-6297704753603536~7691896805</string>
-    <string name="ad_admod_interstitial">ca-app-pub-6297704753603536/5586258006</string>
-    <string name="ad_admod_banner">ca-app-pub-6297704753603536/4109524805</string>
+    <string name="channel_key">UC4-3ZCq3JwdheBJLQpjOLAQ</string>
+    <string name="amobi_id">691957c154c2e4d7accabf1040e70319</string>
+    <string name="ad_admod_init">ca-app-pub-6297704753603536~4622398804</string>
+    <string name="ad_admod_interstitial">ca-app-pub-6297704753603536/7575865209</string>
+    <string name="ad_admod_banner">ca-app-pub-6297704753603536/6099132004</string>
 
     <string name="init_data">Đang nạp dữ liệu ...</string>
     <string name="watched">Đã xem</string>

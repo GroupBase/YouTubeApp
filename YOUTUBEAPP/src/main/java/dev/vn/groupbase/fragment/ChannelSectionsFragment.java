@@ -15,6 +15,7 @@ import java.util.List;
 
 import app.thn.groupbase.phimkinhdi.R;
 import dev.vn.groupbase.activity.PlayListActivity;
+import dev.vn.groupbase.activity.PlayListItemsActivity;
 import dev.vn.groupbase.adapter.ChannelSectionsAdapter;
 import dev.vn.groupbase.common.FragmentCommon;
 import dev.vn.groupbase.common.ModelCommon;
@@ -81,12 +82,14 @@ public class ChannelSectionsFragment extends FragmentCommon implements ModelCall
 
     @Override
     public void onItemClick(View itemView, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString(PlayListModel.LIST_PLAY_LIST_KEY,mAdapter.getObject(position).playList);
-                bundle.putString(ChannelSectionsModel.CHENNEL_SECTIONS_TITLE,mAdapter.getObject(position).name);
-                Intent intent = new Intent(mContext, PlayListActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+        Bundle bundle = new Bundle();
+        bundle.putString(PlayListModel.PLAY_LIST_KEY, mAdapter.getObject(position).playList);
+        bundle.putString(PlayListModel.LIST_PLAY_TITLE, mAdapter.getObject(position).name);
+        bundle.putInt("action_view", 1);
+        Intent intent = new Intent(mContext, PlayListItemsActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

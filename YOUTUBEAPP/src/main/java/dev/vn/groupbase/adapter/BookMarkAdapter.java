@@ -46,13 +46,13 @@ public class BookMarkAdapter extends BaseExpandableListAdapter {
         }
         for (String key : header.keySet()) {
             String param = header.get(key);
-            List<BookMarkTable> lst_obj= new ArrayList<>();
+            List<BookMarkTable> lst_obj = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (key.equals(list.get(i).playListId)) {
                     lst_obj.add(list.get(i));
                 }
             }
-            _listDataChild.put(param,lst_obj);
+            _listDataChild.put(param, lst_obj);
         }
 
     }
@@ -152,14 +152,14 @@ public class BookMarkAdapter extends BaseExpandableListAdapter {
                     } else {
                         url = "";
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     url = "";
                 }
-                bundle.putString("video_id",obj.videoId);
-                bundle.putString("url_img",url);
-                bundle.putString("title",obj.videoName);
-                bundle.putSerializable("bookmark",obj);
-                bundle.putBoolean("load_ad",true);
+                bundle.putString("video_id", obj.videoId);
+                bundle.putString("url_img", url);
+                bundle.putString("title", obj.videoName);
+                bundle.putSerializable("bookmark", obj);
+                bundle.putBoolean("load_ad", true);
                 Intent intent = new Intent(mContext, VideoPlayActivity.class);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);

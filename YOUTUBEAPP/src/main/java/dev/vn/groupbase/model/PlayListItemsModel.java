@@ -94,7 +94,7 @@ public class PlayListItemsModel extends ModelCommon implements ApiListener {
     @Override
     public void getData(Bundle bundle) {
         if (bundle != null) {
-            mPlayListID = bundle.getString(PLAY_LIST_KEY,"");
+            mPlayListID = bundle.getString(PLAY_LIST_KEY,"").replace("[","").replace("]","");
         }
     }
 }
